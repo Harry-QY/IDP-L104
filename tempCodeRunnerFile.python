@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def plot_function(x_values, y_values1, y_values2):
+    plt.plot(x_values, y_values1, label='Original Function')
+    plt.plot(x_values[:-2], y_values2, label='Integral Function')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+x = np.linspace(-5, 5, 1000)
+
+def function(x):
+    y = [math.sin(xi) for xi in x]
+    return y
+
+def integral(y, h):
+    int_y = []
+    y_take_two = y[:-2]
+    cumulative_sum = 0
+    for i in range(len(y_take_two)):
+        int_y_i = h * (y[i + 2] + 4 * y[i + 1] + y[i]) / 3
+        cumulative_sum += int_y_i
+        int_y.append(cumulative_sum)
+    return int_y
+
+h_value = x[1] - x[0]  # Assuming a constant step size
+integral_values = integral(function(x), h_value)
+plot_function(x, function(x), integral_values)
