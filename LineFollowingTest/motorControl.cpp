@@ -36,7 +36,7 @@ void motorForward(int motorSpeed, int timeRunning) { //timeRunning variable in m
   myMotor2->run(RELEASE);
 }
 
-void motorLeft(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
+void motorRight(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
   myMotor1->run(BACKWARD);
   myMotor2->run(FORWARD);
   myMotor1->setSpeed(motorSpeed);
@@ -46,7 +46,7 @@ void motorLeft(int motorSpeed, int timeRunning) { //timeRunning variable in mili
   myMotor2->run(RELEASE);
 }
 
-void motorRight(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
+void motorLeft(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
   myMotor1->run(FORWARD);
   myMotor2->run(BACKWARD);
   myMotor1->setSpeed(motorSpeed);

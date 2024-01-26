@@ -9,9 +9,9 @@
 int lsv, rsv, fsv, bsv;
 int btn = 3; //sets button
 // to be adjusted
-int fwd_speed = 75;
+int fwd_speed = 150;
 int fwd_time = 100;
-int turn_speed = 50;
+int turn_speed = 150;
 int turn_time = 100;
 int start = 0; //has button been pressed?
 
@@ -29,7 +29,10 @@ void setup() {
 
 void loop() {
   if (digitalRead(btn) == 1) {
-    start = 1;
+    start = !start;
+    delay(500);
+    Serial.print("Button pressed, robot is in state: ");
+    Serial.println(start);
   }
 
   if (start == 1) {
