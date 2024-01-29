@@ -1,5 +1,6 @@
 #include <Adafruit_MotorShield.h> //header file for protecting motors
-#include "motorControl.h"
+#include "driveMotorControl.h"
+#include "liftControl.h"
 
 #define ls 6 // left sensor
 #define rs 7 // right sensor
@@ -17,7 +18,8 @@ int start = 0; //has button been pressed?
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
-  motorSetup();
+  driveMotorSetup();
+  liftSetup();
 
   Serial.begin(9600);
   // put your setup code here, to run once:
@@ -33,6 +35,10 @@ void loop() {
     delay(500);
     Serial.print("Button pressed, robot is in state: ");
     Serial.println(start);
+
+    //raise lift motor
+    liftMotorLower(50,5000);
+    liftMotorRaise(50,5000);
   }
 
   if (start == 1) {

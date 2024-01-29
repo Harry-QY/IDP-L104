@@ -1,11 +1,11 @@
 #include <Adafruit_MotorShield.h>
-#include "motorControl.h"
+#include "driveMotorControl.h"
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
 
-void motorSetup() {
+void driveMotorSetup() {
   Serial.begin(9600);
   Serial.println("Adafruit Motorshield v2 - DC Motor test!");
 
