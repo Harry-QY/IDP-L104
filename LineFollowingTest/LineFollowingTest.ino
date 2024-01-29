@@ -18,8 +18,7 @@ int start = 0; //has button been pressed?
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
-  driveMotorSetup();
-  liftSetup();
+  MotorSetup();
 
   Serial.begin(9600);
   // put your setup code here, to run once:
@@ -37,8 +36,8 @@ void loop() {
     Serial.println(start);
 
     //raise lift motor
-    liftMotorLower(50,5000);
-    liftMotorRaise(50,5000);
+    LiftMotorLower(50,5000);
+    LiftMotorRaise(50,5000);
   }
 
   if (start == 1) {
@@ -56,19 +55,19 @@ void loop() {
     if (lsv == 0 and rsv == 0) {
       Serial.println("should go straight");
       // go straight
-      motorForward(fwd_speed, fwd_time);
+      MotorForward(fwd_speed, fwd_time);
     }
 
     if (lsv == 0 and rsv == 1) {
       Serial.println("should go right");
       // turn right
-      motorRight(turn_speed, turn_time);
+      MotorRight(turn_speed, turn_time);
     }
 
     if (lsv == 1 and rsv == 0) {
       // turn left
       Serial.println("should go left");
-      motorLeft(turn_speed, turn_time);
+      MotorLeft(turn_speed, turn_time);
     }
   }
 }

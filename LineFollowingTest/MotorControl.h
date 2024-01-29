@@ -5,14 +5,14 @@
 
 #include <arduino.h>
 
-void driveMotorSetup();
-void motorForward(int motorSpeed, int timeRunning);
-void motorBack(int motorSpeed, int timeRunning);
-void motorLeft(int motorSpeed, int timeRunning);
-void motorRight(int motorSpeed, int timeRunning);
-void motorOff();
+void MotorSetup();
+void MotorForward(int MotorSpeed, int TimeRunning);
+void MotorBack(int MotorSpeed, int TimeRunning);
+void MotorLeft(int MotorSpeed, int TimeRunning);
+void MotorRight(int MotorSpeed, int TimeRunning);
+void MotorOff();
 
-void liftMotorLower(int motorSpeed, int timeRunning);
-void liftMotorRaise(int motorSpeed, int timeRunning);
+void LiftMotorLower(int MotorSpeed, int TimeRunning);
+void LiftMotorRaise(int MotorSpeed, int TimeRunning);
 
 #endif

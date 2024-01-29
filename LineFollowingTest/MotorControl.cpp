@@ -2,10 +2,11 @@
 #include "MotorControl.h"
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
-Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
+Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
+Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
+Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
-void driveMotorSetup() {
+void MotorSetup() {
   Serial.begin(9600);
   Serial.println("Adafruit Motorshield v2 - DC Motor test!");
 
@@ -16,64 +17,64 @@ void driveMotorSetup() {
   Serial.println("Motor Shield found.");
 }
 
-void motorBack(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  myMotor1->run(FORWARD); //depends on which way the motors are installed
-  myMotor2->run(FORWARD);
-  myMotor1->setSpeed(motorSpeed);
-  myMotor2->setSpeed(motorSpeed);
-  delay(timeRunning);
-  myMotor1->run(RELEASE);
-  myMotor2->run(RELEASE);
+void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(FORWARD); //depends on which way the motors are installed
+  RightMotor->run(FORWARD);
+  LeftMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
 }
 
-void motorForward(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  myMotor1->run(BACKWARD);
-  myMotor2->run(BACKWARD);
-  myMotor1->setSpeed(motorSpeed);
-  myMotor2->setSpeed(motorSpeed);
-  delay(timeRunning);
-  myMotor1->run(RELEASE);
-  myMotor2->run(RELEASE);
+void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(BACKWARD);
+  RightMotor->run(BACKWARD);
+  LeftMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
 }
 
-void motorRight(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  myMotor1->run(BACKWARD);
-  myMotor2->run(FORWARD);
-  myMotor1->setSpeed(motorSpeed);
-  myMotor2->setSpeed(motorSpeed);
-  delay(timeRunning);
-  myMotor1->run(RELEASE);
-  myMotor2->run(RELEASE);
+void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(BACKWARD);
+  RightMotor->run(FORWARD);
+  LeftMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
 }
 
-void motorLeft(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  myMotor1->run(FORWARD);
-  myMotor2->run(BACKWARD);
-  myMotor1->setSpeed(motorSpeed);
-  myMotor2->setSpeed(motorSpeed);
-  delay(timeRunning);
-  myMotor1->run(RELEASE);
-  myMotor2->run(RELEASE);
+void MotorLeft(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(FORWARD);
+  RightMotor->run(BACKWARD);
+  LeftMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
 }
 
-void motorOff() {
-  myMotor1->run(RELEASE);
-  myMotor2->run(RELEASE);
+void MotorOff() {
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
 }
 
 
 //motor for lifting--------------------------------
 
-void liftMotorRaise(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  liftMotor->run(FORWARD);
-  liftMotor->setSpeed(motorSpeed);
-  delay(timeRunning);
-  liftMotor->run(RELEASE);
+void LiftMotorRaise(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LiftMotor->run(FORWARD);
+  LiftMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LiftMotor->run(RELEASE);
 }
 
-void liftMotorLower(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
-  liftMotor->run(BACKWARD);
-  liftMotor->setSpeed(motorSpeed);
-  delay(timeRunning);
-  liftMotor->run(RELEASE);
+void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LiftMotor->run(BACKWARD);
+  LiftMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LiftMotor->run(RELEASE);
 }
