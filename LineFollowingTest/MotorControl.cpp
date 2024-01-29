@@ -1,5 +1,5 @@
 #include <Adafruit_MotorShield.h>
-#include "driveMotorControl.h"
+#include "MotorControl.h"
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
@@ -59,4 +59,21 @@ void motorLeft(int motorSpeed, int timeRunning) { //timeRunning variable in mili
 void motorOff() {
   myMotor1->run(RELEASE);
   myMotor2->run(RELEASE);
+}
+
+
+//motor for lifting--------------------------------
+
+void liftMotorRaise(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
+  liftMotor->run(FORWARD);
+  liftMotor->setSpeed(motorSpeed);
+  delay(timeRunning);
+  liftMotor->run(RELEASE);
+}
+
+void liftMotorLower(int motorSpeed, int timeRunning) { //timeRunning variable in miliseconds
+  liftMotor->run(BACKWARD);
+  liftMotor->setSpeed(motorSpeed);
+  delay(timeRunning);
+  liftMotor->run(RELEASE);
 }

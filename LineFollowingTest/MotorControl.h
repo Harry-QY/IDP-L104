@@ -1,7 +1,7 @@
 #include <Adafruit_MotorShield.h>
 
-#ifndef DRIVEMOTORCONTROL_H
-#define DRIVEMOTORCONTROL_H
+#ifndef MOTORCONTROL_H
+#define MOTORCONTROL_H
 
 #include <arduino.h>
 
@@ -11,5 +11,8 @@ void motorBack(int motorSpeed, int timeRunning);
 void motorLeft(int motorSpeed, int timeRunning);
 void motorRight(int motorSpeed, int timeRunning);
 void motorOff();
+
+void liftMotorLower(int motorSpeed, int timeRunning);
+void liftMotorRaise(int motorSpeed, int timeRunning);
 
 #endif
