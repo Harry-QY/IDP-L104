@@ -1,5 +1,5 @@
 #include <Adafruit_MotorShield.h> //header file for protecting motors
-#include "motorControl.h"
+#include "MotorControl.h"
 #include "Pathfinding.h"
 #include "LineSensorCombinations.h"
 
@@ -21,7 +21,7 @@ int mode = 0;
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
-  motorSetup();
+  MotorSetup();
   Serial.begin(9600);
   // put your setup code here, to run once:
   pinMode(ls, INPUT);
@@ -42,12 +42,34 @@ void loop() {
 
   if (start == 1) {
     // put your main code here, to run repeatedly:
+    int path1[4] = {8, 14, 10, 4}; // looks for inverse T, T, right hand junction, end
+    String actions1[4] = {"Forward", "Turn Left", "Turn right", "Stop"};
+    int* current_path = path1;
+    String* current_action = actions1;
+    int path_size = sizeof(current_path)/sizeof(int);
+    int i = 0;
+
+    while (i < path_size) {
     lsv = digitalRead(ls);
     rsv = digitalRead(rs);
     fsv = digitalRead(fs);
     bsv = digitalRead(bs);
+    int SensorState = lineSensorStates(lsv, fsv, rsv, bsv);
 
-    lineSensorStates(lsv, fsv, rsv, bsv, fwd_speed, fwd_time, turn_speed, turn_time);
+    if (SensorState == current_path[i]) {
+        // Perform action here
+        Serial.print("Junction ");
+        Serial.print(i);
+        Serial.print(" detected, performing action: ");
+        Serial.print(actions1[i]);
+        // Update i to move to the next element in the path
+        i++;
+    } else {
+        // Go forward or perform other actions here if needed
+    }
+  }
+    // picks up new path based on block type
+
     
   }
 

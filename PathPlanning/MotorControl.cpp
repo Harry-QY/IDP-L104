@@ -8,7 +8,7 @@ Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
 void MotorSetup() {
   Serial.begin(9600);
-  Serial.println("Adafruit Motorshield v2 - DC Motor test!");
+  Serial.println("Adafruit Motorshield v2 - Motor setup");
 
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
