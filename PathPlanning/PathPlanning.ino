@@ -1,6 +1,7 @@
 #include <Adafruit_MotorShield.h> //header file for protecting motors
-#include "MotorControl.h"
-#include "SensorControl.h"
+#include "motorControl.h"
+#include "Pathfinding.h"
+#include "LineSensorCombinations.h"
 
 #define ls 6 // left sensor
 #define rs 7 // right sensor
@@ -9,17 +10,18 @@
 
 int lsv, rsv, fsv, bsv;
 int btn = 3; //sets button
-// to be adjusted
-int fwd_speed = 150;
+
+int fwd_speed = 230;
 int fwd_time = 100;
-int turn_speed = 150;
+int turn_speed = 100;
 int turn_time = 100;
-int start = 0; //has button been pressed?
+
+int start = 0;
+int mode = 0;
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
-  MotorSetup();
-
+  motorSetup();
   Serial.begin(9600);
   // put your setup code here, to run once:
   pinMode(ls, INPUT);
@@ -29,15 +31,13 @@ void setup() {
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
+  // 0 for going straight, L for left junction, R for right junction, F for front junction and B for back junction
   if (digitalRead(btn) == 1) {
     start = !start;
     delay(500);
     Serial.print("Button pressed, robot is in state: ");
     Serial.println(start);
-
-    //raise lift motor
-    LiftMotorLower(50,5000);
-    LiftMotorRaise(50,5000);
   }
 
   if (start == 1) {
@@ -46,28 +46,9 @@ void loop() {
     rsv = digitalRead(rs);
     fsv = digitalRead(fs);
     bsv = digitalRead(bs);
-    delay(10);
 
-    if (lsv == 1 and rsv == 1) {
-      Serial.println("both 1");
-    }
-
-    if (lsv == 0 and rsv == 0) {
-      Serial.println("should go straight");
-      // go straight
-      MotorForward(fwd_speed, fwd_time);
-    }
-
-    if (lsv == 0 and rsv == 1) {
-      Serial.println("should go right");
-      // turn right
-      MotorRight(turn_speed, turn_time);
-    }
-
-    if (lsv == 1 and rsv == 0) {
-      // turn left
-      Serial.println("should go left");
-      MotorLeft(turn_speed, turn_time);
-    }
+    lineSensorStates(lsv, fsv, rsv, bsv, fwd_speed, fwd_time, turn_speed, turn_time);
+    
   }
+
 }

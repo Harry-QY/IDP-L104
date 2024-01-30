@@ -1,6 +1,7 @@
 #include <Adafruit_MotorShield.h> //header file for protecting motors
 #include "motorControl.h"
 #include "sensorControl.h"
+#include "LineSensorCombinations.h"
 
 #define ls 6 // left sensor
 #define rs 7 // right sensor
