@@ -46,42 +46,8 @@ void loop() {
     fsv = digitalRead(fs);
     bsv = digitalRead(bs);
 
-  if (lsv == 0 and rsv == 0 and fsv == 0 and bsv == 0) {
-    Serial.println("Go straight");
-    motorForward(fwd_speed, fwd_time);
-  }
-  if (lsv == 0 and rsv == 0 and fsv == 1 and bsv == 1) {
-    Serial.println("Go straight");
-    motorForward(fwd_speed, fwd_time);
-  }
-  if (lsv == 0 and rsv == 1 and fsv == 1 and bsv == 1) {
-      Serial.println("should go right");
-      // turn right
-      motorRight(turn_speed, turn_time);
-    }
-
-  if (lsv == 1 and rsv == 0 and fsv == 1 and bsv == 1) {
-      // turn left
-      Serial.println("should go left");
-      motorLeft(turn_speed, turn_time);
-    }
-  if (lsv == 1 and rsv == 0 and fsv == 1 and bsv == 1) {
-    Serial.println("Left T detected");
-    motorOff();
-  }
-  if (lsv == 0 and rsv == 1 and fsv == 1 and bsv == 1) {
-    Serial.println("Right T detected");
-    motorOff();
-  }
-  if (lsv == 1 and rsv == 1 and fsv == 0 and bsv == 1) {
-    Serial.println("Front T detected");
-    motorRight(200,1000); 
-  }
-  if (lsv == 1 and rsv == 1 and fsv == 1 and bsv == 0) {
-    Serial.println("Back T detected");
-    motorOff();
-  }
-
+    lineSensorStates(lsv, fsv, rsv, bsv, fwd_speed, fwd_time, turn_speed, turn_time);
+    
   }
 
 }
