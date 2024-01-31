@@ -62,6 +62,62 @@ void MotorOff() {
   RightMotor->run(RELEASE);
 }
 
+void MotorAction(char action) {
+  // motor action to be called in according to junction type
+  int fwd_speed = 150;
+  int fwd_time = 200;
+  int turn_speed = 150;
+  int turn_time = 1200;
+  int bwd_speed = 100;
+  int bwd_time = 200;
+
+  switch (action) {
+    case 'F':
+      MotorForward(fwd_speed, fwd_time);
+      break;
+    case 'L':
+      MotorLeft(turn_speed, turn_time);
+      break;
+    case 'R':
+      MotorRight(turn_speed, turn_time);
+      break;
+    case 'S':
+      MotorBack(bwd_speed, bwd_time);
+      break;
+    case 'B':
+      MotorOff();
+      break;
+  }
+}
+
+void LineFollow(int SensorState){
+  int straight_speed = 100;
+  int straight_time = 200;
+  int correct_speed = 100;
+  int correct_time = 50;
+  switch (SensorState) {
+    case 1:
+    case 7:
+    case 0: // ?
+      MotorForward(straight_speed, straight_time); // go straight
+      break;
+    case 5:
+    case 2:
+    case 13:
+      //MotorBack(straight_speed/2, straight_time/2); // reverse a bit
+      MotorLeft(correct_speed, correct_time); // correct left
+      break;
+    case 3:
+    case 6:
+    case 15:
+      //MotorBack(straight_speed/2, straight_time/2); // reverse a bit
+      MotorRight(correct_speed, correct_time); // correct right
+      break;
+    default:
+      MotorForward(straight_speed, straight_time);
+  }
+}
+
 
 //motor for lifting--------------------------------
 
@@ -78,3 +134,5 @@ void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in
   delay(TimeRunning);
   LiftMotor->run(RELEASE);
 }
+
+

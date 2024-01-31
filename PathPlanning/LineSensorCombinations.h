@@ -2,9 +2,9 @@
 #define LINESENSORCOMBINAIONS_H
 
 #include <arduino.h>
+#include <String.h>
 
-
-int lineSensorStates(int lsv, int rsv, int fsv, int bsv, int fwd_speed, int fwd_time, int turn_speed, int turn_time);
+int lineSensorStates(int lsv, int rsv, int fsv, int bsv);
 
 
 #endif

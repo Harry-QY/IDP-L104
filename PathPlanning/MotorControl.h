@@ -12,6 +12,9 @@ void MotorLeft(int MotorSpeed, int TimeRunning);
 void MotorRight(int MotorSpeed, int TimeRunning);
 void MotorOff();
 
+void MotorAction(char action);
+void LineFollow(int SensorState);
+
 void LiftMotorLower(int MotorSpeed, int TimeRunning);
 void LiftMotorRaise(int MotorSpeed, int TimeRunning);
 
