@@ -69,89 +69,94 @@ void loop() {
     bsv = digitalRead(bs);
     int SensorState = lineSensorStates(lsv, fsv, rsv, bsv);
 
-    if (SensorState == current_path[i]) {
-        // Perform action here
-        Serial.print("Junction ");
-        Serial.print(i);
-        Serial.print(" detected, performing action: ");
-        Serial.print(actions1[i]);
-        // Update i to move to the next element in the path
-        i++;
-    } else {
-        // Go forward or perform other actions here if needed
+      if (SensorState == current_path[i]) {
+          // Perform action here
+          Serial.print("Junction ");
+          Serial.print(i);
+          Serial.print(" detected, performing action: ");
+          Serial.print(actions1[i]);
+          // Update i to move to the next element in the path
+          i++;
+      } else {
+          // Go forward or perform other actions here if needed
+      }
     }
-  }
     // picks up new path based on block type
 
     
 //Block detection sensor stuff -- pulled loop function from Andrew's code -------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
-  // read the value from the sensor:
-  sensing_t = analogRead(sensingPin);
-  // get distances
-  US_dist = sensing_t * MAX_RANG / ADC_SOLUTION;//
-  ToF_dist = sensor.getDistance();
+    // read the value from the sensor:
+    sensing_t = analogRead(sensingPin);
+    // get distances
+    US_dist = sensing_t * MAX_RANG / ADC_SOLUTION;//
+    ToF_dist = sensor.getDistance();
 
-  /*    -- testing --
-  Serial.print("ToF Distance: ");Serial.println(ToF_dist);
-  Serial.print("US Distance: ");
-  Serial.println(US_dist,0);
-  Serial.println("cm");
-  */
+    /*    -- testing --
+    Serial.print("ToF Distance: ");Serial.println(ToF_dist);
+    Serial.print("US Distance: ");
+    Serial.println(US_dist,0);
+    Serial.println("cm");
+    */
 
-  digitalWrite(greenLED, LOW);
-  digitalWrite(redLED, LOW);
+    digitalWrite(greenLED, LOW);
+    digitalWrite(redLED, LOW);
 
-  // Add items to list over 1 second if a block was detected
-  if (block_detected){
-    if(current_iteration < num_iterations){
-      
-      // Check there is a block
-      if(ToF_dist < 50){
-
-      // Check which type of block (US can't detect foam)
-        if(US_dist < 6){
-          block_type = 2; // set solid
-        }else{
-          block_type = 1; // set foam
-        }
-      }else{
-        block_type = 0; // set no block
+    // Add items to list over 1 second if a block was detected
+    if (block_detected){
+      //Check if there is a block w/ TimeOfFlight sensor so the loop can run
+      if((ToF_dist < 50) && want_to_detect && !(block_detected)){
+        block_detected = true;
+        Serial.println("block_detected true");
       }
-      Serial.println(block_type);
-      block_list[current_iteration] = block_type;
-      current_iteration++; 
 
-    }else{
+      delay(time_delay);
+    
 
-      // Choose distinct block type as most common block recorded
-      chosen_block = mostFrequent(block_list);
-      if (chosen_block != 0){ // If there is a block
-        if (chosen_block == 1){ // If foam
-          digitalWrite(greenLED, HIGH);
-        }else if (chosen_block == 2){ // If solid
-          digitalWrite(redLED, HIGH);
+      if(current_iteration < num_iterations){
+        
+        if(ToF_dist < 50){  // Check there is a block
+
+        // Check which type of block (US can't detect foam)
+          if(US_dist < 6){
+            block_type = 2; // set solid
+          }
+          else{
+            block_type = 1; // set foam
+          }
         }
-        delay(5200);
-        digitalWrite(greenLED, LOW);
-        digitalWrite(redLED, LOW);
-      }
-      Serial.print("Most Frequent: ");Serial.println(mostFrequent(block_list));
 
-      // Reset variables for another detection
-      block_detected = false;
-      current_iteration = 0;
+        else{
+          block_type = 0; // set no block
+        }
+
+        Serial.println(block_type);
+        block_list[current_iteration] = block_type;
+        current_iteration++; 
+
+      }
+      else{
+        // Choose distinct block type as most common block recorded
+        chosen_block = mostFrequent(block_list);
+        if (chosen_block != 0){ // If there is a block
+          if (chosen_block == 1){ // If foam
+            digitalWrite(greenLED, HIGH);
+          }
+          else if (chosen_block == 2){ // If solid
+            digitalWrite(redLED, HIGH);
+          }
+
+          delay(5200);
+          digitalWrite(greenLED, LOW);
+          digitalWrite(redLED, LOW);
+        }
+        Serial.print("Most Frequent: ");Serial.println(mostFrequent(block_list));
+
+        // Reset variables for another detection
+        block_detected = false;
+        current_iteration = 0;
+      }
     }
-  }
-  
-  //Check if there is a block w/ TimeOfFlight sensor so the loop can run
-  if((ToF_dist < 50) && want_to_detect && !(block_detected)){
-    block_detected = true;
-    Serial.println("block_detected true");
-  }
-
-  delay(time_delay);
-  
   }
 }

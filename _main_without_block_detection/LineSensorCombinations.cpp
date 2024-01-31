@@ -70,12 +70,12 @@ int lineSensorStates(int lsv, int rsv, int fsv, int bsv) {
     //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 0 and bsv == 1) { 
-    lineSensorStatesMessage = "1001: correct left"; //assuming front sensor is far forward enough
+    //lineSensorStatesMessage = "1001: correct left"; //assuming front sensor is far forward enough
     SensorState = 13;
     //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 1 and rsv == 1 and fsv == 0 and bsv == 1) {
-    lineSensorStatesMessage = "1101: T Junction, pathfinding based decision";
+    //lineSensorStatesMessage = "1101: T Junction, pathfinding based decision";
     SensorState = 14;
     //motorLeft(turn_speed, turn_time);
   }

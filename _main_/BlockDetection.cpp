@@ -38,8 +38,9 @@ int mostFrequent(int* SomeArray) {
   for (int i = 0; i < num_iterations; i++){ 
     int count = 0; 
     for (int j = 0; j < num_iterations; j++){ 
-        if (SomeArray[i] == SomeArray[j]) 
-            count++; 
+      if (SomeArray[i] == SomeArray[j]) {
+          count++; 
+      }
     } 
     if (count > maxcount){ 
         maxcount = count; 

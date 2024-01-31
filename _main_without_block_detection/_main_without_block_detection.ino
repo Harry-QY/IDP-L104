@@ -47,9 +47,11 @@ void loop() {
     int path1[4] = {8, 14, 10, 4}; // looks for inverse T, T, right hand junction, end
 
 
-
     String actions1[4] = {"Forward", "Turn Left", "Turn right", "Stop"};
+
     int* current_path = path1;
+    //add code for choosing other paths depending on block stuff
+
     String* current_action = actions1;
     int path_size = sizeof(current_path)/sizeof(int);
     int i = 0;
@@ -76,5 +78,4 @@ void loop() {
       }
     }
   }
-    // picks up new path based on block type
 }
