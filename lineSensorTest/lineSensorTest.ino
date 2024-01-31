@@ -1,6 +1,5 @@
 #include <Adafruit_MotorShield.h> //header file for protecting motors
 #include "motorControl.h"
-#include "sensorControl.h"
 #include "LineSensorCombinations.h"
 
 #define ls 6 // left sensor
@@ -47,7 +46,18 @@ void loop() {
     fsv = digitalRead(fs);
     bsv = digitalRead(bs);
 
-    lineSensorStates(lsv, rsv, fsv, bsv, fwd_speed, fwd_time, turn_speed, turn_time);
+    Serial.print("The left sensor is pin 6, and reading ");
+    Serial.println(lsv);
+
+    Serial.print("The right sensor is pin 7, and reading ");
+    Serial.println(rsv);
+
+    Serial.print("The front sensor is pin 8, and reading ");
+    Serial.println(fsv);
+
+    Serial.print("The back sensor is pin 9, and reading ");
+    Serial.println(bsv);
+    //lineSensorStates(lsv, fsv, rsv, bsv, fwd_speed, fwd_time, turn_speed, turn_time);
     
   }
 

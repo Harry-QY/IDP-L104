@@ -27,17 +27,17 @@ int lineSensorStates(int lsv, int rsv, int fsv, int bsv, int fwd_speed, int fwd_
   if (lsv == 0 and rsv == 0 and fsv == 0 and bsv == 1) {
     //lineSensorStatesMessage = "0001: end of line";
     SensorState = 4;
-    motorForward(fwd_speed, fwd_time);
+    motorBack(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 1 and bsv == 0) {
     //lineSensorStatesMessage = "1010: correct left (hopefully no junction)"; //assuming back sensor is far back enough
     SensorState = 5;
-    motorForward(fwd_speed, fwd_time);
+    motorLeft(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 1 and fsv == 1 and bsv == 0) {
     //lineSensorStatesMessage = "0110: correct right (hopefully no junction)";
     SensorState = 6;
-    motorForward(fwd_speed, fwd_time);
+    motorRight(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 0 and fsv == 1 and bsv == 1) {
     //lineSensorStatesMessage = "0011: Ideal go straight case";
