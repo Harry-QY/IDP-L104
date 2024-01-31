@@ -20,20 +20,12 @@ int start = 0;
 int mode = 0;
 
 
-float US_dist, sensing_t, ToF_dist;
-int time_delay = 50;
-int block_list[num_iterations];
-int current_iteration = 0;
-bool block_detected = false;
-bool want_to_detect = true;
-int block_type;
-int chosen_block;
-
 void setup() {
-  pinMode(btn, INPUT);  // declare pushbutton as input
-  MotorSetup();
+  motorSetup();
+  
   Serial.begin(9600);
-  // put your setup code here, to run once:
+
+  pinMode(btn, INPUT);  // declare pushbutton as input
   pinMode(ls, INPUT);
   pinMode(rs, INPUT);
   pinMode(fs, INPUT);
@@ -69,16 +61,19 @@ void loop() {
     bsv = digitalRead(bs);
     int SensorState = lineSensorStates(lsv, fsv, rsv, bsv);
 
-    if (SensorState == current_path[i]) {
-        // Perform action here
-        Serial.print("Junction ");
-        Serial.print(i);
-        Serial.print(" detected, performing action: ");
-        Serial.print(actions1[i]);
-        // Update i to move to the next element in the path
-        i++;
-    } else {
-        // Go forward or perform other actions here if needed
+      if (SensorState == current_path[i]) {
+          // Perform action here
+          Serial.print("Junction ");
+          Serial.print(i);
+          Serial.print(" detected, performing action: ");
+          Serial.print(actions1[i]);
+          // Update i to move to the next element in the path
+          i++;
+      } 
+      
+      else {
+          // Go forward or perform other actions here if needed
+      }
     }
   }
     // picks up new path based on block type

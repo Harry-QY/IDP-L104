@@ -1,11 +1,12 @@
+#define MAX_RANG (520)//the max measurement value of the module is 520cm(a little bit longer than effective max range)
+#define ADC_SOLUTION (1023.0)//ADC accuracy of Arduino UNO is 10bit
+
 #include "Arduino.h"
 #include "BlockDetection.h"
 #include "Wire.h"
 #include "DFRobot_VL53L0X.h"
-DFRobot_VL53L0X sensor;
 
-#define MAX_RANG (520)//the max measurement value of the module is 520cm(a little bit longer than effective max range)
-#define ADC_SOLUTION (1023.0)//ADC accuracy of Arduino UNO is 10bit
+DFRobot_VL53L0X sensor;
 
 int sensingPin = A0; //for UltraSonic (US)
 int greenLED = 10;
