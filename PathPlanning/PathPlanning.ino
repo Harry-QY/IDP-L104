@@ -3,12 +3,14 @@
 #include "Pathfinding.h"
 #include "LineSensorCombinations.h"
 
+
 #define ls 6 // left sensor
 #define rs 7 // right sensor
 #define fs 8 // front sensor
 #define bs 9 // back sensor
 
-int lsv, rsv, fsv, bsv;
+// int lsv, rsv, fsv, bsv;
+
 int btn = 3; //sets button
 
 int start = 0;
@@ -51,8 +53,20 @@ void loop() {
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
-    int* current_path = path1;
-    char* current_actions = actions1;
+    //int* current_path = path1;
+    //char* current_actions = actions1;
+
+    // follow path
+    FollowPath(path1, actions1);
+
+    // block detection
+    // pick/drop block, switch pick/drop mode
+    // update current path based on block type
+    // drop block, num_delivered += 1
+    
+  }
+
+    /*
     int path_size = sizeof(*current_path)/sizeof(int);
     int i = 0;
     Serial.print("Loop starts. Path size = ");
@@ -90,12 +104,5 @@ void loop() {
       Serial.println(start);
       break;
     }
-
-    // block detection
-    // pick/drop block, switch pick/drop mode
-    // update current path based on block type
-    // drop block, num_delivered += 1
-  }
-    
-  }
+    */
 }

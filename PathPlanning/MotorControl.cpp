@@ -126,7 +126,7 @@ void LineFollow(int SensorState){
     case 6:
       MotorForward(shift_speed, shift_time);
       MotorLeft(turn_speed, turn_time);
-      break:
+      break;
     case 13:
       MotorBack(shift_speed, shift_time);
       MotorLeft(turn_speed, turn_time);
