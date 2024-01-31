@@ -62,6 +62,9 @@ void MotorOff() {
   RightMotor->run(RELEASE);
 }
 
+
+// code for motion control ----------------------
+
 void MotorAction(char action) {
   // motor action to be called in according to junction type
   int fwd_speed = 150;
@@ -87,34 +90,51 @@ void MotorAction(char action) {
     case 'B':
       MotorOff();
       break;
+    case 'T':
+      MotorLeft(turn_speed, turn_time*2); // turn 180
+      break;
   }
 }
 
 void LineFollow(int SensorState){
+  // different speed & time for each action, to be finetuned
   int straight_speed = 100;
-  int straight_time = 200;
-  int correct_speed = 100;
-  int correct_time = 50;
+  int straight_time = 100;
+  int shift_speed = 100;
+  int shift_time = 200;
+  int turn_speed = 100;
+  int turn_time = 50;
+
   switch (SensorState) {
     case 1:
     case 7:
-    case 0: // ?
-      MotorForward(straight_speed, straight_time); // go straight
-      break;
-    case 5:
-    case 2:
-    case 13:
-      //MotorBack(straight_speed/2, straight_time/2); // reverse a bit
-      MotorLeft(correct_speed, correct_time); // correct left
-      break;
-    case 3:
-    case 6:
-    case 15:
-      //MotorBack(straight_speed/2, straight_time/2); // reverse a bit
-      MotorRight(correct_speed, correct_time); // correct right
-      break;
     default:
       MotorForward(straight_speed, straight_time);
+      break;
+    case 2:
+      MotorLeft(turn_speed, turn_time);
+      MotorForward(shift_speed, shift_time);
+      break;
+    case 3:
+      MotorRight(turn_speed, turn_time);
+      MotorForward(shift_speed, shift_time);
+      break;
+    case 5:
+      MotorForward(shift_speed, shift_time);
+      MotorRight(turn_speed, turn_time);
+      break;
+    case 6:
+      MotorForward(shift_speed, shift_time);
+      MotorLeft(turn_speed, turn_time);
+      break:
+    case 13:
+      MotorBack(shift_speed, shift_time);
+      MotorLeft(turn_speed, turn_time);
+      break;
+    case 15:
+      MotorBack(shift_speed, shift_time);
+      MotorLeft(turn_speed, turn_time);
+      break;
   }
 }
 

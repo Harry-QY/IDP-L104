@@ -5,84 +5,83 @@ int lineSensorStates(int lsv, int rsv, int fsv, int bsv) {
   String lineSensorStatesMessage;
   int SensorState;
   if (lsv == 0 and rsv == 0 and fsv == 0 and bsv == 0) {
-    //lineSensorStatesMessage = "0000: start box?"; //industrial area behavior tbc in here
+    // State 0 = 0000: start box / lost track -> need a correction loop
+    // industrial area behavior tbc in here
     SensorState = 0;
-    //motorForward(fwd_speed, fwd_time);
   }
   if (lsv == 0 and rsv == 0 and fsv == 1 and bsv == 0) {
-    //lineSensorStatesMessage = "0010: straight";
+    // State 1 = 0010: end of line (reverse), inverse T (missed)
+    // move forward to confirm?
     SensorState = 1;
-    //motorForward(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 0 and bsv == 0) {
-    //lineSensorStatesMessage = "1000: left turn";
+    // State 2 = 1000: right side of the line
+    // left then forward
     SensorState = 2;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 1 and fsv == 0 and bsv == 0) {
-    //lineSensorStatesMessage = "0100: right turn";
+    // State 3 = 1000: right side of the line
+    // right then forward
     SensorState = 3;
-    //motorRight(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 0 and fsv == 0 and bsv == 1) {
-    //lineSensorStatesMessage = "0001: end of line/platform";
+    // State 4 = 0001: end of line / platform
+    // stop
     SensorState = 4;
-    //motorBack(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 1 and bsv == 0) {
-    //lineSensorStatesMessage = "1010: correct left (hopefully no junction)"; //assuming back sensor is far back enough
+    // State 5 = 1010: right side of the line
+    // forward then right
     SensorState = 5;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 1 and fsv == 1 and bsv == 0) {
-    //lineSensorStatesMessage = "0110: correct right (hopefully no junction)";
+    // State 6 = 0110: left side of line
+    // forward then left
     SensorState = 6;
-    //motorRight(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 0 and fsv == 1 and bsv == 1) {
-    //lineSensorStatesMessage = "0011: Ideal go straight case";
+    // State 7 = 0011: ideal go straight
+    // forward
     SensorState = 7;
-    //motorForward(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 1 and fsv == 1 and bsv == 0) {
-    //lineSensorStatesMessage = "1110: Inverse T junction";
+    // State 8 = 1110: inverse T junction
+    // action based on planned path
     SensorState = 8;
-    //motorForward(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 1 and bsv == 1) {
-    //lineSensorStatesMessage = "1011: Ideally left hand junction ";
+    // State 9 = 1011: ideal left hand junction
+    // action based on planned path
     SensorState = 9;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 1 and fsv == 1 and bsv == 1) {
-    //lineSensorStatesMessage = "0111: Ideally right hand junction ";
+    // State 10 = 0111: ideal  right hand junction
+    // action based on planned path
     SensorState = 10;
-    //motorRight(turn_speed, turn_time);
   }
   if (lsv == 1 and rsv == 1 and fsv == 1 and bsv == 1) {
-    //lineSensorStatesMessage = "1111: Shouldn't be possible";
+    // State 11 = 1111: shouldn't be possible
     SensorState = 11;
-    //motorForward(fwd_speed, fwd_time);
   }
   if (lsv == 1 and rsv == 1 and fsv == 0 and bsv == 0) {
-    //lineSensorStatesMessage = "1100: Unsure, turn 90 degree?";
+    // State 12 = 1100: perpendicular to line -> turn 90 degree
+    // need to consider direction heading
     SensorState = 12;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 1 and rsv == 0 and fsv == 0 and bsv == 1) { 
-    lineSensorStatesMessage = "1001: correct left"; //assuming front sensor is far forward enough
+    // State 13 = 1001: right side of line
+    // reverse then left 
     SensorState = 13;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 1 and rsv == 1 and fsv == 0 and bsv == 1) {
-    lineSensorStatesMessage = "1101: T Junction, pathfinding based decision";
+    // State 14 = 1101: T junction
+    // actions based on planned path
     SensorState = 14;
-    //motorLeft(turn_speed, turn_time);
   }
   if (lsv == 0 and rsv == 1 and fsv == 0 and bsv == 1) {
-    //lineSensorStatesMessage = "0101: correct right"; //assuming front sensor is far forward enough
+    // State 15 = left side of line
+    // reverse then right
     SensorState = 15;
-    //motorRight(turn_speed, turn_time);
   }
     //Serial.println(lineSensorStatesMessage);
     return SensorState;

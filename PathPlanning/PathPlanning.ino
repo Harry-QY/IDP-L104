@@ -37,27 +37,26 @@ void loop() {
 
   while (start == 1) {
     // put your main code here, to run repeatedly:
-    int path1[5] = {0, 8, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
+    int path1[] = {0, 8, 14, 10, 4}; // looks for start box, inverse T, T, right hand junction, end of line
     char actions1[] = "FFLRS";
-    /*
-    int path2a[];
-    char actions2a[];
-    int path2b[];
-    char actions2b[];
-    int path3a[];
-    char path3a[];
-    int path3b[];
-    char path3b[];
-    */
+    int path2a[] = {7, 8, 14, 4}; // go to green
+    char actions2a[] = "BLLS";
+    int path2b[] = {7, 8, 10, 14, 4}; // go to red
+    char actions2b[] = "BRFRS";
+    int path3a[] = {9, 10, 9, 10, 4}; // go to next block from green
+    char actions3a[] = "TRFRS"; 
+    int path3b[] = {10, 9, 9, 4}; // go to next block from red
+    char actions3b[] = "TLLS";
 
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
     int* current_path = path1;
     char* current_actions = actions1;
-    int path_size = sizeof(path1)/sizeof(int);
+    int path_size = sizeof(*current_path)/sizeof(int);
     int i = 0;
-    Serial.print("Loop starts. ");
+    Serial.print("Loop starts. Path size = ");
+    Serial.println(path_size);
 
     while (i < path_size) {
     lsv = digitalRead(ls);
