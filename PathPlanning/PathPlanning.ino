@@ -53,11 +53,12 @@ void loop() {
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
-    //int* current_path = path1;
-    //char* current_actions = actions1;
+    int* current_path = path1;
+    char* current_actions = actions1;
+    int path_size = sizeof(path1)/sizeof(int);
 
     // follow path
-    FollowPath(path1, actions1);
+    FollowPath(current_path, current_actions, path_size);
 
     // block detection
     // pick/drop block, switch pick/drop mode

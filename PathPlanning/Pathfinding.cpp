@@ -9,10 +9,9 @@
 #define bs 9 // back sensor
 int lsv, rsv, fsv, bsv;
 
-void FollowPath(int path, char actions) {
-    int path_size = sizeof(path)/sizeof(int);
-    int* path_ptr = path;
-    char* actions_ptr = actions;
+void FollowPath(int* current_path, char* current_actions, int path_size) {
+    //int* path_ptr = path;
+    //char* actions_ptr = actions;
     int i = 0;
     Serial.print("Loop starts. Path size = ");
     Serial.println(path_size);
@@ -24,13 +23,13 @@ void FollowPath(int path, char actions) {
     bsv = digitalRead(bs);
     int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
 
-    if (SensorState == path_ptr[i]) {
+    if (SensorState == current_path[i]) {
         // Perform action here
         Serial.print("Feature detected: ");
         Serial.print(i);
         Serial.print("; Action: ");
-        Serial.println(actions_ptr[i]);
-        MotorAction(actions_ptr[i]);
+        Serial.println(current_actions[i]);
+        MotorAction(current_actions[i]);
         Serial.print("Move on to junction: ");
         Serial.println(i+1);
         // Update i to move to the next element in the path
@@ -41,5 +40,5 @@ void FollowPath(int path, char actions) {
         Serial.println(SensorState); 
         LineFollow(SensorState);
     }
-}
+    }
 }
