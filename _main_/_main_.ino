@@ -87,11 +87,16 @@ void loop() {
 //Block detection sensor stuff -- pulled loop function from Andrew's code -------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
+
+
+/*
+
     // read the value from the sensor:
     sensing_t = analogRead(sensingPin);
     // get distances
     US_dist = sensing_t * MAX_RANG / ADC_SOLUTION;//
     ToF_dist = sensor.getDistance();
+*/
 
     /*    -- testing --
     Serial.print("ToF Distance: ");Serial.println(ToF_dist);
@@ -100,6 +105,8 @@ void loop() {
     Serial.println("cm");
     */
 
+
+/*
     digitalWrite(greenLED, LOW);
     digitalWrite(redLED, LOW);
 
@@ -160,3 +167,4 @@ void loop() {
     }
   }
 }
+*/
