@@ -11,7 +11,7 @@
 
 // int lsv, rsv, fsv, bsv;
 
-int btn = 3; //sets button
+#define btn 3 //sets button
 
 int start = 0;
 int mode = 0;
@@ -58,7 +58,7 @@ void loop() {
     int path_size = sizeof(path1)/sizeof(int);
 
     // follow path
-    FollowPath(current_path, current_actions, path_size);
+    FollowPath(current_path, current_actions, path_size, start);
 
     // block detection
     // pick/drop block, switch pick/drop mode

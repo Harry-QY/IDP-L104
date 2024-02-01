@@ -6,6 +6,8 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
+int offset = 0;
+
 void MotorSetup() {
   Serial.begin(9600);
   Serial.println("Adafruit Motorshield v2 - Motor setup");
@@ -21,7 +23,7 @@ void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in mili
   LeftMotor->run(FORWARD); //depends on which way the motors are installed
   RightMotor->run(FORWARD);
   LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed + offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -31,7 +33,7 @@ void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in m
   LeftMotor->run(BACKWARD);
   RightMotor->run(BACKWARD);
   LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed + offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -41,7 +43,7 @@ void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in mil
   LeftMotor->run(BACKWARD);
   RightMotor->run(FORWARD);
   LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed + offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -51,7 +53,7 @@ void MotorLeft(int MotorSpeed, int TimeRunning) { //timeRunning variable in mili
   LeftMotor->run(FORWARD);
   RightMotor->run(BACKWARD);
   LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  RightMotor->setSpeed(MotorSpeed + offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -101,13 +103,14 @@ void LineFollow(int SensorState){
   int straight_speed = 150;
   int straight_time = 100;
   int shift_speed = 100;
-  int shift_time = 100;
+  int shift_time = 300;
   int turn_speed = 100;
-  int turn_time = 100;
+  int turn_time = 300;
 
   switch (SensorState) {
     case 1:
     case 7:
+    case 4:
     default:
       MotorForward(straight_speed, straight_time);
       break;
@@ -128,12 +131,12 @@ void LineFollow(int SensorState){
       MotorLeft(turn_speed, turn_time);
       break;
     case 13:
-      MotorBack(shift_speed, shift_time);
+      // MotorBack(shift_speed, shift_time);
       MotorLeft(turn_speed, turn_time);
       break;
     case 15:
-      MotorBack(shift_speed, shift_time);
-      MotorLeft(turn_speed, turn_time);
+      // MotorBack(shift_speed, shift_time);
+      MotorRight(turn_speed, turn_time);
       break;
   }
       
