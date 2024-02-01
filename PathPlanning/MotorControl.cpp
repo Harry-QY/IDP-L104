@@ -6,6 +6,9 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
+float left_offset = 1.25;
+float right_offset = 1;
+
 void MotorSetup() {
   Serial.begin(9600);
   Serial.println("Adafruit Motorshield v2 - Motor setup");
@@ -20,8 +23,8 @@ void MotorSetup() {
 void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LeftMotor->run(FORWARD); //depends on which way the motors are installed
   RightMotor->run(FORWARD);
-  LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -30,8 +33,8 @@ void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in mili
 void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LeftMotor->run(BACKWARD);
   RightMotor->run(BACKWARD);
-  LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -40,8 +43,8 @@ void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in m
 void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LeftMotor->run(BACKWARD);
   RightMotor->run(FORWARD);
-  LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -50,8 +53,8 @@ void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in mil
 void MotorLeft(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LeftMotor->run(FORWARD);
   RightMotor->run(BACKWARD);
-  LeftMotor->setSpeed(MotorSpeed);
-  RightMotor->setSpeed(MotorSpeed);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
   delay(TimeRunning);
   LeftMotor->run(RELEASE);
   RightMotor->run(RELEASE);
@@ -71,8 +74,8 @@ void MotorAction(char action) {
   int fwd_time = 200;
   int turn_speed = 150;
   int turn_time = 1200;
-  int bwd_speed = 100;
-  int bwd_time = 200;
+  int bwd_speed = 150;
+  int bwd_time = 2000;
 
   switch (action) {
     case 'F':
@@ -101,13 +104,14 @@ void LineFollow(int SensorState){
   int straight_speed = 150;
   int straight_time = 100;
   int shift_speed = 100;
-  int shift_time = 100;
-  int turn_speed = 100;
-  int turn_time = 100;
+  int shift_time = 300;
+  int turn_speed = 150;
+  int turn_time = 120;
 
   switch (SensorState) {
     case 1:
     case 7:
+    case 4:
     default:
       MotorForward(straight_speed, straight_time);
       break;
@@ -128,15 +132,14 @@ void LineFollow(int SensorState){
       MotorLeft(turn_speed, turn_time);
       break;
     case 13:
-      MotorBack(shift_speed, shift_time);
+      // MotorBack(shift_speed, shift_time);
       MotorLeft(turn_speed, turn_time);
       break;
     case 15:
-      MotorBack(shift_speed, shift_time);
-      MotorLeft(turn_speed, turn_time);
+      // MotorBack(shift_speed, shift_time);
+      MotorRight(turn_speed, turn_time);
       break;
-  }
-      
+  } 
 
 }
 

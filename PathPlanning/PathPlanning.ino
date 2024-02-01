@@ -30,11 +30,17 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // 0 for going straight, L for left junction, R for right junction, F for front junction and B for back junction
+  int btn_count = 0;
   if (digitalRead(btn) == 1) {
     start = !start;
     delay(500);
     Serial.print("Button pressed, robot is in state: ");
     Serial.println(start);
+    btn_count = btn_count + 1;
+  }
+
+  if (btn_count == 2) {
+    start == 1;
   }
 
   while (start == 1) {
@@ -58,7 +64,9 @@ void loop() {
     int path_size = sizeof(path1)/sizeof(int);
 
     // follow path
-    FollowPath(current_path, current_actions, path_size, start);
+    FollowPath(current_path, current_actions, path_size);
+    MotorOff();
+    start = !start;
 
     // block detection
     // pick/drop block, switch pick/drop mode

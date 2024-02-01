@@ -5,6 +5,6 @@
 #include "MotorControl.h"
 #include "LineSensorCombinations.h"
 
-void FollowPath(int* current_path, char* current_actions, int path_size, int start);
+void FollowPath(int* current_path, char* current_actions, int path_size);
 
 #endif

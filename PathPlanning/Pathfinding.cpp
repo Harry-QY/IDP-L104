@@ -7,10 +7,10 @@
 #define rs 7 // right sensor
 #define fs 8 // front sensor
 #define bs 9 // back sensor
+#define btn 3 // button
 int lsv, rsv, fsv, bsv;
-int btn = 3;
 
-void FollowPath(int* current_path, char* current_actions, int path_size, int start) {
+void FollowPath(int* current_path, char* current_actions, int path_size) {
     //int* path_ptr = path;
     //char* actions_ptr = actions;
     int i = 0;
@@ -40,11 +40,10 @@ void FollowPath(int* current_path, char* current_actions, int path_size, int sta
         Serial.print("Go straight, sensor state:");   
         Serial.println(SensorState); 
         LineFollow(SensorState);
-    }  if (digitalRead(btn) == 1) {
-      start = !start;
+    } if (digitalRead(btn) == 1) {
+      Serial.println("Stop");
       delay(500);
-      Serial.print("Button pressed, robot is in state: ");
-      Serial.println(start);
-  }
+      break;
+    }
     }
 }
