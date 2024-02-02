@@ -16,6 +16,7 @@ int mode = 0;
 
 float US_dist, sensing_t, ToF_dist;
 int time_delay = 50;
+const int num_iterations = 20; //#### change each time you change time_delay >> 1000/time_delay
 int block_list[num_iterations];
 int current_iteration = 0;
 bool block_detected = false;
