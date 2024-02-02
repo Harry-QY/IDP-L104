@@ -8,13 +8,7 @@
 #define fs 8 // front sensor
 #define bs 9 // back sensor
 
-int lsv, rsv, fsv, bsv;
 int btn = 3; //sets button
-
-int fwd_speed = 230;
-int fwd_time = 100;
-int turn_speed = 100;
-int turn_time = 100;
 
 int start = 0;
 int mode = 0;
@@ -46,48 +40,41 @@ void loop() {
   if (digitalRead(btn) == 1) {
     start = !start;
     delay(500);
-    Serial.print("Button pressed, robot is in state: ");
-    Serial.println(start);
   }
 
   if (start == 1) {
     // put your main code here, to run repeatedly:
-    int path1[4] = {8, 14, 10, 4}; // looks for inverse T, T, right hand junction, end
+    int path1[] = {0, 8, 14, 10, 4}; // looks for start box, inverse T, T, right hand junction, end of line
+    char actions1[] = "FFLRS";
+    int path2a[] = {7, 8, 14, 4}; // go to green
+    char actions2a[] = "BLLS";
+    int path2b[] = {7, 8, 10, 14, 4}; // go to red
+    char actions2b[] = "BRFRS";
+    int path3a[] = {9, 10, 9, 10, 4}; // go to next block from green
+    char actions3a[] = "TRFRS"; 
+    int path3b[] = {10, 9, 9, 4}; // go to next block from red
+    char actions3b[] = "TLLS";
 
+    int pick_drop = 0; // 0 for picking up, 1 for dropping off
+    int num_delivered = 0; // number of block delivered
 
-
-    String actions1[4] = {"Forward", "Turn Left", "Turn right", "Stop"};
     int* current_path = path1;
-    String* current_action = actions1;
-    int path_size = sizeof(current_path)/sizeof(int);
-    int i = 0;
+    char* current_actions = actions1;
+    int path_size = sizeof(path1)/sizeof(int);
 
-    while (i < path_size) {
-    lsv = digitalRead(ls);
-    rsv = digitalRead(rs);
-    fsv = digitalRead(fs);
-    bsv = digitalRead(bs);
-    int SensorState = lineSensorStates(lsv, fsv, rsv, bsv);
+    // follow path
+    FollowPath(current_path, current_actions, path_size);
+    MotorOff();
 
-      if (SensorState == current_path[i]) {
-          // Perform action here
-          Serial.print("Junction ");
-          Serial.print(i);
-          Serial.print(" detected, performing action: ");
-          Serial.print(actions1[i]);
-          // Update i to move to the next element in the path
-          i++;
-      } else {
-          // Go forward or perform other actions here if needed
-      }
-    }
-    // picks up new path based on block type
+    start = !start;
 
+    // block detection
+    // pick/drop block, switch pick/drop mode
+    // update current path based on block type
+    // drop block, num_delivered += 1
     
 //Block detection sensor stuff -- pulled loop function from Andrew's code -------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
-
-
 
 /*
 
@@ -166,5 +153,7 @@ void loop() {
       }
     }
   }
-}
+
 */
+  }
+}

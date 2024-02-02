@@ -27,8 +27,6 @@ void setup() {
   pinMode(bs, INPUT);
 }
 
-int btn_count = 0;
-
 void loop() {
   // put your main code here, to run repeatedly:
   // 0 for going straight, L for left junction, R for right junction, F for front junction and B for back junction

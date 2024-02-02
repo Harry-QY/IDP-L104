@@ -7,6 +7,7 @@
 #define rs 7 // right sensor
 #define fs 8 // front sensor
 #define bs 9 // back sensor
+#define btn 3 // button
 int lsv, rsv, fsv, bsv;
 
 void FollowPath(int* current_path, char* current_actions, int path_size) {
@@ -39,6 +40,10 @@ void FollowPath(int* current_path, char* current_actions, int path_size) {
         Serial.print("Go straight, sensor state:");   
         Serial.println(SensorState); 
         LineFollow(SensorState);
+    } if (digitalRead(btn) == 1) {
+      Serial.println("Stop");
+      delay(500);
+      break;
     }
     }
 }
