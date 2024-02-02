@@ -27,20 +27,16 @@ void setup() {
   pinMode(bs, INPUT);
 }
 
+int btn_count = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
   // 0 for going straight, L for left junction, R for right junction, F for front junction and B for back junction
-  int btn_count = 0;
+
   if (digitalRead(btn) == 1) {
     start = !start;
     delay(500);
-    Serial.print("Button pressed, robot is in state: ");
-    Serial.println(start);
-    btn_count = btn_count + 1;
-  }
 
-  if (btn_count == 2) {
-    start == 1;
   }
 
   while (start == 1) {
@@ -66,6 +62,7 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     MotorOff();
+
     start = !start;
 
     // block detection
@@ -74,44 +71,4 @@ void loop() {
     // drop block, num_delivered += 1
     
   }
-
-    /*
-    int path_size = sizeof(*current_path)/sizeof(int);
-    int i = 0;
-    Serial.print("Loop starts. Path size = ");
-    Serial.println(path_size);
-
-    while (i < path_size) {
-    lsv = digitalRead(ls);
-    rsv = digitalRead(rs);
-    fsv = digitalRead(fs);
-    bsv = digitalRead(bs);
-    int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
-
-    if (SensorState == current_path[i]) {
-        // Perform action here
-        Serial.print("Feature detected: ");
-        Serial.print(i);
-        Serial.print("; Action: ");
-        Serial.println(current_actions[i]);
-        MotorAction(current_actions[i]);
-        Serial.print("Move on to junction: ");
-        Serial.println(i+1);
-        // Update i to move to the next element in the path
-        i++;
-    } else {
-        // Perform straight line following
-        Serial.print("Go straight, sensor state:");   
-        Serial.println(SensorState); 
-        LineFollow(SensorState);
-    }
-
-    if (digitalRead(btn) == 1) {
-      start = !start;
-      delay(500);
-      Serial.print("Button pressed, robot is in state: ");
-      Serial.println(start);
-      break;
-    }
-    */
 }
