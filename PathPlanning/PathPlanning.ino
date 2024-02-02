@@ -2,6 +2,7 @@
 #include "MotorControl.h"
 #include "Pathfinding.h"
 #include "LineSensorCombinations.h"
+#include "Ticker.h"
 
 
 #define ls 6 // left sensor
@@ -12,6 +13,7 @@
 // int lsv, rsv, fsv, bsv;
 
 #define btn 3 //sets button
+#define blueLED 7 //blue LED
 
 int start = 0;
 int mode = 0;
@@ -26,6 +28,7 @@ void setup() {
   pinMode(fs, INPUT);
   pinMode(bs, INPUT);
 }
+
 
 void loop() {
   // put your main code here, to run repeatedly:
