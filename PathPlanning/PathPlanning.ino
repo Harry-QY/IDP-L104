@@ -44,10 +44,10 @@ void loop() {
     // put your main code here, to run repeatedly:
     int path1[] = {0, 8, 14, 10, 4}; // looks for start box, inverse T, T, right hand junction, end of line
     char actions1[] = "FFLRS";
-    int path2a[] = {7, 8, 14, 4}; // go to green
-    char actions2a[] = "BLLS";
-    int path2b[] = {7, 8, 10, 14, 4}; // go to red
-    char actions2b[] = "BRFRS";
+    int path2a[] = {7, 14, 14, 4}; // go to green
+    char actions2a[] = "TLLS";
+    int path2b[] = {7, 8, 14, 14, 4}; // go to red
+    char actions2b[] = "TRFRS";
     int path3a[] = {9, 10, 9, 10, 4}; // go to next block from green
     char actions3a[] = "TRFRS"; 
     int path3b[] = {10, 9, 9, 4}; // go to next block from red

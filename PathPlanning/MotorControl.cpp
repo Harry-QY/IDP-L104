@@ -103,8 +103,8 @@ void LineFollow(int SensorState){
   // different speed & time for each action, to be finetuned
   int straight_speed = 150;
   int straight_time = 100;
-  int shift_speed = 100;
-  int shift_time = 300;
+  int shift_speed = 150;
+  int shift_time = 150;
   int turn_speed = 150;
   int turn_time = 120;
 
