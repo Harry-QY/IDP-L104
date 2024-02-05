@@ -6,7 +6,7 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
-float left_offset = 1.25;
+float left_offset = 1.30;
 float right_offset = 1;
 
 void MotorSetup() {
@@ -70,9 +70,9 @@ void MotorOff() {
 
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 150;
-  int fwd_time = 200;
-  int turn_speed = 150;
+  int fwd_speed = 180;
+  int fwd_time = 150;
+  int turn_speed = 125;
   int turn_time = 1200;
   int bwd_speed = 150;
   int bwd_time = 2000;
@@ -101,12 +101,12 @@ void MotorAction(char action) {
 
 void LineFollow(int SensorState){
   // different speed & time for each action, to be finetuned
-  int straight_speed = 150;
-  int straight_time = 100;
+  int straight_speed = 170;
+  int straight_time = 90;
   int shift_speed = 150;
-  int shift_time = 150;
-  int turn_speed = 150;
-  int turn_time = 120;
+  int shift_time = 100;
+  int turn_speed = 160;
+  int turn_time = 90;
 
   switch (SensorState) {
     case 1:

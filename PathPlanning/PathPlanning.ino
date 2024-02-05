@@ -21,8 +21,8 @@ bool stop_ticker = 1;
 
 Ticker blueLEDticker(flipLED, 500, 0, MILLIS);
 
-int path1[] = {0, 8, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
-char actions1[] = "FFLR";
+int path1[] = {0, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
+char actions1[] = "FLR";
 int path2a[] = {7, 14, 14}; // go to green
 char actions2a[] = "TLL";
 int path2b[] = {7, 8, 14, 14}; // go to red
@@ -71,6 +71,9 @@ void loop() {
     int path_size = sizeof(path1)/sizeof(int);
     // follow path
     FollowPath(current_path, current_actions, path_size);
+    MotorOff();
+    start = !start;
+    /*
     // block finding
     BlockFinding();
     // block detection
@@ -89,7 +92,7 @@ void loop() {
 
     // go to the selected platform
     FollowPath(current_path, current_actions, path_size);
-
+    */
 
 
     // update current path based on block type
