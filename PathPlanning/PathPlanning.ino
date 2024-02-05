@@ -13,7 +13,13 @@
 // int lsv, rsv, fsv, bsv;
 
 #define btn 3 //sets button
-#define blueLED 7 // blue LED
+
+bool blueLedState = 0;
+bool LED_state = 0;
+bool start_ticker = 0;
+bool stop_ticker = 1;
+
+Ticker blueLEDticker(flipLED, 500, 0, MILLIS);
 
 int path1[] = {0, 8, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
 char actions1[] = "FFLR";
@@ -31,6 +37,7 @@ int mode = 0;
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
+  pinMode(blueLED, OUTPUT);
   MotorSetup();
   Serial.begin(9600);
   // put your setup code here, to run once:
@@ -38,6 +45,9 @@ void setup() {
   pinMode(rs, INPUT);
   pinMode(fs, INPUT);
   pinMode(bs, INPUT);
+
+  blueLEDticker.start();
+  Serial.println("Finished setup");
 }
 
 
@@ -86,4 +96,6 @@ void loop() {
     // drop block, num_delivered += 1
     
   }
+
+  blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
 }
