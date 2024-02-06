@@ -37,7 +37,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
         int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
 
         
-        if (SensorState == (current_path[i][0] || current_path[i][2] || current_path[i][1])) {
+        if (SensorState == current_path[i][0] || SensorState == current_path[i][1] || SensorState == current_path[i][2]) {
             // Perform action here
             Serial.print("Feature detected: ");
             Serial.print(i);

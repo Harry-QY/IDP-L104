@@ -15,16 +15,16 @@
 
 #define btn 3 //sets button
 
-int path1[][3] = {{0,0,0}, {14,14,14}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
+int path1[][3] = {{0,12,0}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
 char actions1[] = "FLR";
-int path2green[] = {"7", "14", "14"}; // go to green
-char actions2green[] = "TLL";
-int path2red[] = {7, 8, 14, 14}; // go to red
-char actions2red[] = "TRFR";
-int path3green[] = {9, 10, 9, 10}; // go to next block from green
-char actions3green[] = "TRFR"; 
-int path3red[] = {10, 9, 9}; // go to next block from red
-char actions3red[] = "TLL";
+int path2green[][3] = {{7,7,7}, {14,14,12}, {14,14,12}}; // go to green
+char actions2green[] = "TRL";
+int path2red[][3] = {{7,7,7}, {10,8,14}, {14,14,12}, {14,14,12}}; // go to red
+char actions2red[] = "TLFR";
+int path3green[][3] = {{7,7,7}, {10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
+char actions3green[] = "TFRFR"; 
+int path3red[][3] = {{7,7,7}, {9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
+char actions3red[] = "TFLL";
 
 int start = 0;
 int mode = 0;
@@ -62,10 +62,10 @@ void loop() {
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
-    int (*current_path)[3] = path1;
-    char* current_actions = actions1;
+    int (*current_path)[3] = path3green;
+    char* current_actions = actions3green;
     // follow path
-    FollowPath(current_path, current_actions, 3);
+    FollowPath(current_path, current_actions, 5);
     MotorOff();
     start = !start;
     /*

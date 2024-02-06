@@ -27,10 +27,10 @@ void MotorAction(char action) {
   // motor action to be called in according to junction type
   int fwd_speed = 150;
   int fwd_time = 150;
-  int turn_speed = 125;
+  int turn_speed = 130;
   int turn_time = 1200;
   int bwd_speed = 150;
-  int bwd_time = 2000;
+  int bwd_time = 150;
 
   switch (action) {
     case 'F':
@@ -38,9 +38,11 @@ void MotorAction(char action) {
       break;
     case 'L':
       MotorLeft(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time/2);
       break;
     case 'R':
       MotorRight(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time/2);
       break;
     case 'B':
       MotorBack(bwd_speed, bwd_time);
@@ -49,6 +51,7 @@ void MotorAction(char action) {
       MotorOff();
       break;
     case 'T':
+      MotorBack(bwd_speed, bwd_time/2);
       MotorLeft(turn_speed, turn_time*2); // turn 180
       break;
   }
