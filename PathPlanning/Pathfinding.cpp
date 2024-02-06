@@ -21,7 +21,7 @@ int lsv, rsv, fsv, bsv;
 
 DFRobot_VL53L0X sensor0;
 
-void FollowPath(int* current_path, char* current_actions, int path_size) {
+void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
     int i = 0;
     Serial.print("Loop starts. Path size = ");
@@ -36,7 +36,8 @@ void FollowPath(int* current_path, char* current_actions, int path_size) {
         blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
         int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
 
-        if (SensorState == current_path[i]) {
+        
+        if (SensorState == (current_path[i][0] || current_path[i][2] || current_path[i][1])) {
             // Perform action here
             Serial.print("Feature detected: ");
             Serial.print(i);

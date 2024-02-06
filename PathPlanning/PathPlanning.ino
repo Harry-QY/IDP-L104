@@ -15,16 +15,16 @@
 
 #define btn 3 //sets button
 
-int path1[] = {0, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
+int path1[][3] = {{0,0,0}, {14,14,14}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
 char actions1[] = "FLR";
-int path2a[] = {7, 14, 14}; // go to green
-char actions2a[] = "TLL";
-int path2b[] = {7, 8, 14, 14}; // go to red
-char actions2b[] = "TRFR";
-int path3a[] = {9, 10, 9, 10}; // go to next block from green
-char actions3a[] = "TRFR"; 
-int path3b[] = {10, 9, 9}; // go to next block from red
-char actions3b[] = "TLL";
+int path2green[] = {"7", "14", "14"}; // go to green
+char actions2green[] = "TLL";
+int path2red[] = {7, 8, 14, 14}; // go to red
+char actions2red[] = "TRFR";
+int path3green[] = {9, 10, 9, 10}; // go to next block from green
+char actions3green[] = "TRFR"; 
+int path3red[] = {10, 9, 9}; // go to next block from red
+char actions3red[] = "TLL";
 
 int start = 0;
 int mode = 0;
@@ -62,11 +62,10 @@ void loop() {
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
-    int* current_path = path1;
+    int (*current_path)[3] = path1;
     char* current_actions = actions1;
-    int path_size = sizeof(path1)/sizeof(int);
     // follow path
-    FollowPath(current_path, current_actions, path_size);
+    FollowPath(current_path, current_actions, 3);
     MotorOff();
     start = !start;
     /*

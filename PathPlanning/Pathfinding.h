@@ -8,7 +8,7 @@
 #include "BlockDetection.h"
 #include <Ticker.h>
 
-void FollowPath(int* current_path, char* current_actions, int path_size);
+void FollowPath(int (*current_path)[3], char* current_actions, int path_size);
 void BlockFinding();
 void PlatformFinding();
 
