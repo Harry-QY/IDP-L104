@@ -3,23 +3,17 @@
 #include "Pathfinding.h"
 #include "LineSensorCombinations.h"
 #include "BlockDetection.h"
-
+#include "LEDControl.h"
 
 #define ls 6 // left sensor
 #define rs 7 // right sensor
 #define fs 8 // front sensor
 #define bs 9 // back sensor
+#define blueLED 4
 
 // int lsv, rsv, fsv, bsv;
 
 #define btn 3 //sets button
-
-bool blueLedState = 0;
-bool LED_state = 0;
-bool start_ticker = 0;
-bool stop_ticker = 1;
-
-Ticker blueLEDticker(flipLED, 500, 0, MILLIS);
 
 int path1[] = {0, 14, 10}; // looks for start box, inverse T, T, right hand junction, end of line
 char actions1[] = "FLR";
@@ -46,7 +40,9 @@ void setup() {
   pinMode(fs, INPUT);
   pinMode(bs, INPUT);
 
-  blueLEDticker.start();
+
+
+
   Serial.println("Finished setup");
 }
 
@@ -100,5 +96,4 @@ void loop() {
     
   }
 
-  blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
 }

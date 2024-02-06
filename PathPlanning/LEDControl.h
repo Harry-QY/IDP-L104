@@ -2,8 +2,13 @@
 #define LEDCONTROL_H
 
 #include <arduino.h>
+#include <Ticker.h>
 
-void flipblueLED();
+extern Ticker blueLEDticker;
+
+int flipblueLED();
 void flipblueLEDsequence();
+void onblueLEDsequence();
+void offblueLEDsequence();
 
 #endif

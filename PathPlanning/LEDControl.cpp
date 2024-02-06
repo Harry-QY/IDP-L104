@@ -1,17 +1,21 @@
 #include "LEDControl.h"
 #include "Ticker.h"
 
-#define blueLED 7 // blue LED
+#define blueLED 4 // blue LED
 
-Ticker blueLEDticker(flipLED, 500, 0, MILLIS);
+Ticker blueLEDticker(flipblueLED, 500, 0, MILLIS);
 
 bool blueLedState = 0;
+bool LED_state = 0;
+bool start_ticker = 0;
+bool stop_ticker = 1;
 
-void flipblueLED(blueLED) {
+
+int flipblueLED() {
   blueLedState = !blueLedState;
   digitalWrite(blueLED, blueLedState);
-  Serial.println("LED flipped!");
 }
+
 
 void flipblueLEDsequence(bool LED_state, bool start_ticker, bool stop_ticker) {
     LED_state = !LED_state; //Indicates if LED sequence should be on or off, off = 0, on = 1.
@@ -37,3 +41,13 @@ void flipblueLEDsequence(bool LED_state, bool start_ticker, bool stop_ticker) {
     }
 }
 
+void onblueLEDsequence() {
+  blueLEDticker.start();
+  Serial.println("LED seq should have started");
+}
+
+void offblueLEDsequence() {
+  blueLEDticker.stop();
+  digitalWrite(blueLED, 0);
+  Serial.println("LED seq should have stopped");
+}
