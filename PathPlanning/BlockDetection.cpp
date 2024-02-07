@@ -21,7 +21,7 @@ int chosen_block;
 
 void DetectionSensorsSetup() {
   // Serial init
-  Serial.begin(115200); // Ideally 115200 for the ToF sensor (remember to set baud in serial monitor)
+  Serial.begin(9600); // Ideally 115200 for the ToF sensor (remember to set baud in serial monitor)
   //join i2c bus (address optional for master)
   Wire.begin();
   //Set I2C sub-device address

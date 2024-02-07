@@ -69,6 +69,8 @@ void BlockFinding() {
     float ToF = 100;
     while (ToF > 50) {
         ToF = sensor.getDistance();
+        Serial.print("ToF reading: ");
+        Serial.println(ToF);
         lsv = digitalRead(ls);
         rsv = digitalRead(rs);
         fsv = digitalRead(fs);
@@ -76,7 +78,6 @@ void BlockFinding() {
         blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
         int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
         LineFollow(SensorState);
-
     }
     MotorOff();
 };

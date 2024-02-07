@@ -61,16 +61,16 @@ void loop() {
     char* current_actions = actions1;
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
-    Serial.println("Running path1");
-    FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
+    //Serial.println("Running path1");
+    //FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
 
     // block finding
     BlockFinding();
-
+    
     // block detection
     int chosen_block = 0;
     chosen_block = BlockIdentification();
-
+    /*
     // pick/drop block, switch pick/drop mode
     if (chosen_block == 1) {
       (*current_path)[3] = path2green;
@@ -88,7 +88,7 @@ void loop() {
     Serial.println("Running path2");
     FollowPath(current_path, current_actions, 3);
     start = !start;
-
+    */
     // drop block, num_delivered += 1
   }
 }
