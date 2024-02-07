@@ -9,7 +9,7 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
-float left_offset = 1.25;
+float left_offset = 1.2;
 float right_offset = 1;
 
 void MotorSetup() {
@@ -25,8 +25,8 @@ void MotorSetup() {
 
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 150;
-  int fwd_time = 150;
+  int fwd_speed = 170;
+  int fwd_time = 250;
   int turn_speed = 130;
   int turn_time = 1200;
   int bwd_speed = 150;

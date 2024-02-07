@@ -26,7 +26,6 @@ char actions3green[] = "TFRFR";
 int path3red[][3] = {{7,7,7}, {9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
 char actions3red[] = "TFLL";
 
-int start = 0;
 int mode = 0;
 
 void setup() {
@@ -39,9 +38,6 @@ void setup() {
   pinMode(rs, INPUT);
   pinMode(fs, INPUT);
   pinMode(bs, INPUT);
-
-
-
 
   Serial.println("Finished setup");
 }
@@ -57,42 +53,43 @@ void loop() {
   }
 
   while (start == 1) {
-    // put your main code here, to run repeatedly:
 
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 
-    int (*current_path)[3] = path3green;
-    char* current_actions = actions3green;
+    int (*current_path)[3] = path1;
+    char* current_actions = actions1;
+    int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
-    FollowPath(current_path, current_actions, 5);
+    Serial.println("Running path1");
+    FollowPath(current_path, current_actions, path_size);
     MotorOff();
-    start = !start;
-    /*
+
     // block finding
     BlockFinding();
-    // block detection
-    int chosen_block = BlockIdentification();
-    // pick/drop block, switch pick/drop mode
 
+    // block detection
+    int chosen_block = 0;
+    chosen_block = BlockIdentification();
+
+    // pick/drop block, switch pick/drop mode
     if (chosen_block == 1) {
-      int* current_path = path2a;
-      char* current_actions = actions2a;
-      int path_size = sizeof(path2a)/sizeof(int);
+      (*current_path)[3] = path2green;
+      * current_actions = actions2green;
+      path_size = sizeof(path2green)/(3*sizeof(int));
     } else {
-      int* current_path = path2a;
-      char* current_actions = actions2a;
-      int path_size = sizeof(path2a)/sizeof(int);
+      (*current_path)[3] = path2red;
+      * current_actions = actions2red;
+      path_size = sizeof(path2red)/(3*sizeof(int));
     }
 
-    // go to the selected platform
-    FollowPath(current_path, current_actions, path_size);
-    */
+    (*current_path)[3] = path2green;
+    * current_actions = actions2green;
+    // follow path
+    Serial.println("Running path2");
+    FollowPath(current_path, current_actions, 3);
+    start = !start;
 
-
-    // update current path based on block type
     // drop block, num_delivered += 1
-    
   }
-
 }

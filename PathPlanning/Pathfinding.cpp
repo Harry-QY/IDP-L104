@@ -18,8 +18,7 @@
 #define sensingPin A0 //for UltraSonic (US)
 
 int lsv, rsv, fsv, bsv;
-
-DFRobot_VL53L0X sensor0;
+int start = 0;
 
 void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
@@ -58,6 +57,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
         if (digitalRead(btn) == 1) {
             Serial.println("Stop");
             delay(500);
+            start = !start;
             break;
         }
     }
@@ -68,7 +68,7 @@ void BlockFinding() {
     DetectionSensorsSetup();
     float ToF = 100;
     while (ToF > 50) {
-        ToF = sensor0.getDistance();
+        ToF = sensor.getDistance();
         lsv = digitalRead(ls);
         rsv = digitalRead(rs);
         fsv = digitalRead(fs);
@@ -85,15 +85,22 @@ void PlatformFinding() {
     DetectionSensorsSetup();
     float US = 100;
     while (US > 50) {
-    int t = analogRead(sensingPin);
-    // get distances
-    US = t * MAX_RANG / ADC_SOLUTION;//
-    lsv = digitalRead(ls);
-    rsv = digitalRead(rs);
-    fsv = digitalRead(fs);
-    bsv = digitalRead(bs);
-    int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
-    LineFollow(SensorState);
+      int t = analogRead(sensingPin);
+      // get distances
+      US = t * MAX_RANG / ADC_SOLUTION;//
+      lsv = digitalRead(ls);
+      rsv = digitalRead(rs);
+      fsv = digitalRead(fs);
+      bsv = digitalRead(bs);
+      int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
+      LineFollow(SensorState);
+
+      if (digitalRead(btn) == 1) {
+        Serial.println("Stop");
+        delay(500);
+        start = !start;
+        break;
+      }
     }
     MotorOff();
 };
