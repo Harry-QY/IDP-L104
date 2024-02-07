@@ -15,11 +15,11 @@
 
 #define btn 3 //sets button
 
-int path1[][3] = {{0,12,0}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
-char actions1[] = "FLR"; //to initial block
-int path2green[][3] = {{7,7,7}, {14,14,12}, {14,14,12}}; // go to green
+int path1[][3] = {{0,12,0}, {8,8,12}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
+char actions1[] = "FFLR"; //to initial block
+int path2green[][3] = {{7,0,4}, {14,14,12}, {14,14,12}}; // go to green
 char actions2green[] = "TRL"; //to green drop off
-int path2red[][3] = {{7,7,7}, {10,8,14}, {14,14,12}, {14,14,12}}; // go to red
+int path2red[][3] = {{7,0,4}, {10,8,14}, {14,14,12}, {14,14,12}}; // go to red
 char actions2red[] = "TLFR"; //to red drop off
 int path3green[][3] = {{7,7,7}, {10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
 char actions3green[] = "TFRFR"; //to second (further) block from green drop off
@@ -62,33 +62,32 @@ void loop() {
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
     //Serial.println("Running path1");
-    //FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
+    //Serial.print("Looking for: "); Serial.print(current_path[0][0]); Serial.print(current_path[1][0]); Serial.print(current_path[2][0]);
+    FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
 
-    // block finding
-    BlockFinding();
-    
+    // block finding    
     // block detection
     int chosen_block = 0;
-    chosen_block = BlockIdentification();
-    /*
-    // pick/drop block, switch pick/drop mode
-    if (chosen_block == 1) {
-      (*current_path)[3] = path2green;
-      * current_actions = actions2green;
-      path_size = sizeof(path2green)/(3*sizeof(int));
-    } else {
-      (*current_path)[3] = path2red;
-      * current_actions = actions2red;
-      path_size = sizeof(path2red)/(3*sizeof(int));
+    while (chosen_block == 0){
+      BlockFinding();
+      chosen_block = BlockIdentification();
     }
 
-    (*current_path)[3] = path2green;
-    * current_actions = actions2green;
+    // pick/drop block, switch pick/drop mode
+    if (chosen_block == 1) {
+      Serial.print("Set path green.");
+      current_path = path2green;
+      current_actions = actions2green;
+      path_size = sizeof(path2green)/(3*sizeof(int));
+    } else {
+      Serial.print("Set path red.");
+      current_path = path2red;
+      current_actions = actions2red;
+      path_size = sizeof(path2red)/(3*sizeof(int));
+    }
     // follow path
-    Serial.println("Running path2");
-    FollowPath(current_path, current_actions, 3);
-    start = !start;
-    */
+    FollowPath(current_path, current_actions, path_size);
+    PlatformFinding();
     // drop block, num_delivered += 1
   }
 }

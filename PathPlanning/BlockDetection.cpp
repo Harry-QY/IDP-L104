@@ -5,7 +5,7 @@
 
 #define sensingPin A0 //for UltraSonic (US)
 #define greenLED 10
-#define redLED 12
+#define redLED 2
 
 #define MAX_RANG (520)//the max measurement value of the module is 520cm(a little bit longer than effective max range)
 #define ADC_SOLUTION (1023.0)//ADC accuracy of Arduino UNO is 10bit
@@ -62,35 +62,35 @@ int BlockIdentification() {
     // get distances
     US_dist = sensing_t * MAX_RANG / ADC_SOLUTION;//
     ToF_dist = sensor.getDistance();
-      // Check there is a block
-      if(ToF_dist < 50){
-      // Check which type of block (US can't detect foam)
-        if(US_dist < 6){
-          block_type = 2; // set solid
-        }else{
-          block_type = 1; // set foam
-        }
-      } else {
-        block_type = 0; // set no block
+    // Check there is a block
+    if(ToF_dist < 70){
+    // Check which type of block (US can't detect foam)
+      if(US_dist < 6){
+        block_type = 2; // set solid
+      }else{
+        block_type = 1; // set foam
       }
-      Serial.println(block_type);
-      block_list[current_iteration] = block_type;
-      current_iteration++; 
+    } else {
+      block_type = 0; // set no block
+    }
+    Serial.println(block_type);
+    block_list[current_iteration] = block_type;
+    current_iteration++; 
+    delay(time_delay);
   }
-      // Choose distinct block type as most common block recorded
-    chosen_block = mostFrequent(block_list);
-    if (chosen_block != 0){ // If there is a block
-        if (chosen_block == 1){ // If foam
-          digitalWrite(greenLED, HIGH);
-          return chosen_block;
-        } else if (chosen_block == 2){ // If solid
-          digitalWrite(redLED, HIGH);
-          return chosen_block;
-        }
-        delay(5200);
-        digitalWrite(greenLED, LOW);
-        digitalWrite(redLED, LOW);
+  // Choose distinct block type as most common block recorded
+  chosen_block = mostFrequent(block_list);
+  if (chosen_block != 0){ // If there is a block
+      if (chosen_block == 1){ // If foam
+        digitalWrite(greenLED, HIGH);
+      } else if (chosen_block == 2){ // If solid
+        digitalWrite(redLED, HIGH);
       }
-    Serial.print("Most Frequent: ");Serial.println(chosen_block);
-    return chosen_block;
+      delay(5200);
+      digitalWrite(greenLED, LOW);
+      digitalWrite(redLED, LOW);
+      return chosen_block;
+    }
+  Serial.print("Most Frequent: ");Serial.println(chosen_block);
+  return chosen_block;
 }

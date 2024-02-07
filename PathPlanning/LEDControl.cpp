@@ -3,7 +3,7 @@
 
 #define blueLED 4 // blue LED
 
-Ticker blueLEDticker(flipblueLED, 500, 0, MILLIS); //Ticker used with flipblueLED function. This is activated using "onBlueLED" function
+Ticker blueLEDticker(flipblueLED, 250, 0, MILLIS); //Ticker used with flipblueLED function. This is activated using "onBlueLED" function
 
 bool blueLedState = 0; //Boolean, is LED on (1) or off (0).
 bool redLedState = 0; // ""
