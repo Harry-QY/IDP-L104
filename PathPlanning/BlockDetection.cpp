@@ -14,7 +14,7 @@ DFRobot_VL53L0X sensor;
 
 float US_dist, sensing_t, ToF_dist;
 int time_delay = 50;
-const int num_iterations = 20; //#### change each time you change time_delay >> 1000/time_delay
+const int num_iterations = 20; // change each time you change time_delay >> 1000/time_delay
 
 int block_type;
 int chosen_block;

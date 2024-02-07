@@ -16,15 +16,15 @@
 #define btn 3 //sets button
 
 int path1[][3] = {{0,12,0}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
-char actions1[] = "FLR";
+char actions1[] = "FLR"; //to initial block
 int path2green[][3] = {{7,7,7}, {14,14,12}, {14,14,12}}; // go to green
-char actions2green[] = "TRL";
+char actions2green[] = "TRL"; //to green drop off
 int path2red[][3] = {{7,7,7}, {10,8,14}, {14,14,12}, {14,14,12}}; // go to red
-char actions2red[] = "TLFR";
+char actions2red[] = "TLFR"; //to red drop off
 int path3green[][3] = {{7,7,7}, {10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
-char actions3green[] = "TFRFR"; 
+char actions3green[] = "TFRFR"; //to second (further) block from green drop off
 int path3red[][3] = {{7,7,7}, {9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
-char actions3red[] = "TFLL";
+char actions3red[] = "TFLL"; //to second (further) block from red drop off
 
 int mode = 0;
 
@@ -62,8 +62,7 @@ void loop() {
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
     Serial.println("Running path1");
-    FollowPath(current_path, current_actions, path_size);
-    MotorOff();
+    FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
 
     // block finding
     BlockFinding();

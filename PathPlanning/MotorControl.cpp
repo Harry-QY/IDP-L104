@@ -9,17 +9,14 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
-float left_offset = 1.2;
+float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 
-void MotorSetup() {
+void MotorSetup() { //Function called in setup(){ function in .ino file.
   Serial.begin(9600);
-  Serial.println("Adafruit Motorshield v2 - Motor setup");
-
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
-    while (1);
-  }
+    while (1);}
   Serial.println("Motor Shield found.");
 }
 
@@ -58,7 +55,7 @@ void MotorAction(char action) {
 }
 
 void LineFollow(int SensorState){
-  // different speed & time for each action, to be finetuned
+  // different speed & time for each action, to be finetuned. This is different to speeds used after detecting a junction.
   int straight_speed = 150;
   int straight_time = 90;
   int shift_speed = 150;
@@ -66,7 +63,7 @@ void LineFollow(int SensorState){
   int turn_speed = 120;
   int turn_time = 90;
 
-  switch (SensorState) {
+  switch (SensorState) { 
     case 1:
     case 7:
     case 4:
