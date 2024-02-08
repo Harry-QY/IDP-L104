@@ -17,15 +17,21 @@
 
 int path1[][3] = {{0,12,0}, {8,8,12}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
 char actions1[] = "FFLR"; //to initial block
-int path2green[][3] = {{7,0,4}, {14,14,12}, {14,14,12}}; // go to green
-char actions2green[] = "TRL"; //to green drop off
-int path2red[][3] = {{7,0,4}, {10,8,14}, {14,14,12}, {14,14,12}}; // go to red
-char actions2red[] = "TLFR"; //to red drop off
-int path3green[][3] = {{7,7,7}, {10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
-char actions3green[] = "TFRFR"; //to second (further) block from green drop off
-int path3red[][3] = {{7,7,7}, {9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
-char actions3red[] = "TFLL"; //to second (further) block from red drop off
 
+int path2green[][3] = {{14,14,12}, {14,14,12}}; // go to green
+char actions2green[] = "RL"; //to green drop off
+int path2red[][3] = {{14,14,12},  {10,8,14}, {14,14,12}}; // go to red
+char actions2red[] = "LFR"; //to red drop off
+
+int path3green[][3] = {{10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
+char actions3green[] = "FRFR"; //to second (further) block from green drop off
+int path3red[][3] = {{9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
+char actions3red[] = "FLL"; //to second (further) block from red drop off
+
+int path4green[][3] = {{14,14,12}, {10,8,14}, {9,8,14}, {9,8,14}}; // block 2 from green
+char actions4green[] = "LFLF";
+int path4red[][3] = {{14,14,12}, {14,14,12}, {10,8,14}}; // block 2 from red
+char actions4red[] = "RRF";
 int mode = 0;
 
 void setup() {
@@ -72,22 +78,74 @@ void loop() {
       BlockFinding();
       chosen_block = BlockIdentification();
     }
-
     // pick/drop block, switch pick/drop mode
+
     if (chosen_block == 1) {
       Serial.print("Set path green.");
       current_path = path2green;
       current_actions = actions2green;
       path_size = sizeof(path2green)/(3*sizeof(int));
+      MotorAction("T");
     } else {
       Serial.print("Set path red.");
       current_path = path2red;
       current_actions = actions2red;
       path_size = sizeof(path2red)/(3*sizeof(int));
+      MotorAction("T");
     }
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
     // drop block, num_delivered += 1
+  
+    //At platform, go for second block----------------------------------
+
+    if (chosen_block == 1) {
+      Serial.print("Set green to new block.");
+      current_path = path3green;
+      current_actions = actions3green;
+      path_size = sizeof(path3green)/(3*sizeof(int));
+      MotorAction("T");
+    } else {
+      Serial.print("Set path red to new block.");
+      current_path = path3red;
+      current_actions = actions3red;
+      path_size = sizeof(path3red)/(3*sizeof(int));
+      MotorAction("T");
+    }
+
+    FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
+
+    // block finding    
+    // block detection
+    chosen_block = 0;
+    while (chosen_block == 0){
+      BlockFinding();
+      chosen_block = BlockIdentification();
+    }
+    // pick/drop block, switch pick/drop mode
+
+    if (chosen_block == 1) {
+      Serial.print("Set path to green platform from futher block.");
+      current_path = path4green;
+      current_actions = actions4green;
+      path_size = sizeof(path4green)/(3*sizeof(int));
+      MotorAction("T");
+    } else {
+      Serial.print("Set path to red platform from futher block.");
+      current_path = path4red;
+      current_actions = actions4red;
+      path_size = sizeof(path4red)/(3*sizeof(int));
+      MotorAction("T");
+    }
+    // follow path
+    FollowPath(current_path, current_actions, path_size);
+    PlatformFinding();
+    MotorOff();
+    offblueLEDsequence();
+    start = 0;
+    // drop block, num_delivered += 1
   }
+
+
 }

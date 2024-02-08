@@ -9,7 +9,7 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
-float left_offset = 1.3; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
+float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 
 void MotorSetup() { //Function called in setup(){ function in .ino file.
@@ -22,12 +22,12 @@ void MotorSetup() { //Function called in setup(){ function in .ino file.
 
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 180;
-  int fwd_time = 200;
-  int turn_speed = 140;
-  int turn_time = 1200;
-  int bwd_speed = 170;
-  int bwd_time = 200;
+  int fwd_speed = 170;
+  int fwd_time = 250;
+  int turn_speed = 130;
+  int turn_time = 1350;
+  int bwd_speed = 150;
+  int bwd_time = 150;
 
   switch (action) {
     case 'F':
