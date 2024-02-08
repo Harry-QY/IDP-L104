@@ -5,6 +5,8 @@
 #ifndef MOTORCONTROL_H
 #define MOTORCONTROL_H
 
+extern float throttle;
+
 void MotorAction(char action);
 void LineFollow(int SensorState);
 

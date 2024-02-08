@@ -32,7 +32,6 @@ int path4green[][3] = {{14,14,12}, {10,8,14}, {9,8,14}, {9,8,14}}; // block 2 fr
 char actions4green[] = "LFLF";
 int path4red[][3] = {{14,14,12}, {14,14,12}, {10,8,14}}; // block 2 from red
 char actions4red[] = "RRF";
-int mode = 0;
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
