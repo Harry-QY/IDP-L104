@@ -2,11 +2,13 @@
 #define BLOCKDETECTION_H
 
 #include <arduino.h>
+#include "Wire.h"
+#include "DFRobot_VL53L0X.h"
 
+extern DFRobot_VL53L0X sensor;
 
 void DetectionSensorsSetup();
-int mostFrequent(int* SomeArray);
-int num_iterations = 20; //#### change each time you change time_delay >> 1000/time_delay
-
+int mostFrequent(int* array);
+int BlockIdentification();
 
 #endif

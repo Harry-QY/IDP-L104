@@ -1,81 +1,35 @@
 #include <Adafruit_MotorShield.h>
 #include "MotorControl.h"
+#include "LEDControl.h"
+#include <Servo.h>
+#define blueLED 4 // blue LED
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
+Servo servoMotor;
 
-float left_offset = 1.25;
+float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 
-void MotorSetup() {
+void MotorSetup() { //Function called in setup(){ function in .ino file.
+  servoMotor.attach(x); // attaches the servo on pin 9 to the servo object
   Serial.begin(9600);
-  Serial.println("Adafruit Motorshield v2 - Motor setup");
-
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
-    while (1);
-  }
+    while (1);}
   Serial.println("Motor Shield found.");
 }
 
-void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LeftMotor->run(FORWARD); //depends on which way the motors are installed
-  RightMotor->run(FORWARD);
-  LeftMotor->setSpeed(MotorSpeed*left_offset);
-  RightMotor->setSpeed(MotorSpeed*right_offset);
-  delay(TimeRunning);
-  LeftMotor->run(RELEASE);
-  RightMotor->run(RELEASE);
-}
-
-void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LeftMotor->run(BACKWARD);
-  RightMotor->run(BACKWARD);
-  LeftMotor->setSpeed(MotorSpeed*left_offset);
-  RightMotor->setSpeed(MotorSpeed*right_offset);
-  delay(TimeRunning);
-  LeftMotor->run(RELEASE);
-  RightMotor->run(RELEASE);
-}
-
-void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LeftMotor->run(BACKWARD);
-  RightMotor->run(FORWARD);
-  LeftMotor->setSpeed(MotorSpeed*left_offset);
-  RightMotor->setSpeed(MotorSpeed*right_offset);
-  delay(TimeRunning);
-  LeftMotor->run(RELEASE);
-  RightMotor->run(RELEASE);
-}
-
-void MotorLeft(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LeftMotor->run(FORWARD);
-  RightMotor->run(BACKWARD);
-  LeftMotor->setSpeed(MotorSpeed*left_offset);
-  RightMotor->setSpeed(MotorSpeed*right_offset);
-  delay(TimeRunning);
-  LeftMotor->run(RELEASE);
-  RightMotor->run(RELEASE);
-}
-
-void MotorOff() {
-  LeftMotor->run(RELEASE);
-  RightMotor->run(RELEASE);
-}
-
-
-// code for motion control ----------------------
-
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 150;
-  int fwd_time = 200;
-  int turn_speed = 150;
-  int turn_time = 1200;
+  int fwd_speed = 170;
+  int fwd_time = 250;
+  int turn_speed = 130;
+  int turn_time = 1350;
   int bwd_speed = 150;
-  int bwd_time = 2000;
+  int bwd_time = 150;
 
   switch (action) {
     case 'F':
@@ -83,9 +37,11 @@ void MotorAction(char action) {
       break;
     case 'L':
       MotorLeft(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time/2);
       break;
     case 'R':
       MotorRight(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time/2);
       break;
     case 'B':
       MotorBack(bwd_speed, bwd_time);
@@ -94,21 +50,22 @@ void MotorAction(char action) {
       MotorOff();
       break;
     case 'T':
+      MotorBack(bwd_speed, bwd_time/2);
       MotorLeft(turn_speed, turn_time*2); // turn 180
       break;
   }
 }
 
 void LineFollow(int SensorState){
-  // different speed & time for each action, to be finetuned
+  // different speed & time for each action, to be finetuned. This is different to speeds used after detecting a junction.
   int straight_speed = 150;
-  int straight_time = 100;
-  int shift_speed = 100;
-  int shift_time = 300;
-  int turn_speed = 150;
-  int turn_time = 120;
+  int straight_time = 90;
+  int shift_speed = 150;
+  int shift_time = 100;
+  int turn_speed = 120;
+  int turn_time = 90;
 
-  switch (SensorState) {
+  switch (SensorState) { 
     case 1:
     case 7:
     case 4:
@@ -140,9 +97,7 @@ void LineFollow(int SensorState){
       MotorRight(turn_speed, turn_time);
       break;
   } 
-
 }
-
 
 //motor for lifting--------------------------------
 
@@ -159,5 +114,86 @@ void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in
   delay(TimeRunning);
   LiftMotor->run(RELEASE);
 }
+
+//general motor running
+
+void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(FORWARD); //depends on which way the motors are installed
+  RightMotor->run(FORWARD);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
+}
+
+void MotorForward(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(BACKWARD);
+  RightMotor->run(BACKWARD);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
+  delay(TimeRunning);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
+}
+
+void MotorRight(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(BACKWARD);
+  RightMotor->run(FORWARD);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
+}
+
+void MotorLeft(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LeftMotor->run(FORWARD);
+  RightMotor->run(BACKWARD);
+  LeftMotor->setSpeed(MotorSpeed*left_offset);
+  RightMotor->setSpeed(MotorSpeed*right_offset);
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  blueLEDticker.update();
+  delay(TimeRunning/4);
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
+}
+
+void MotorOff() {
+  LeftMotor->run(RELEASE);
+  RightMotor->run(RELEASE);
+}
+
+//Servomotor ---------------------------------------------------------------------------------------------------------------------------
+
+int servoAngle = 0; // variable to store the servo position
+
+void resetServo(int intialAngle) {
+  for (pos = initialAngle; pos = 0; pos -= 1) { // goes to 0 degrees
+    myservo.write(pos); // tell servo to go to position in variable 'pos'
+    delay(15); // waits 15 ms for the servo to reach the position
+  }
+}
+
+void servoAngle(int initialAngle, int finalAngle) {
+  for (pos = initialAngle; pos <= finalAngle; pos += 1) {
+    myservo.write(pos); // tell servo to go to position in variable 'pos'
+    delay(15); // waits 15 ms for the servo to reach the position
+  }
+}
+
+
+
+
 
 
