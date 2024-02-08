@@ -9,6 +9,8 @@ Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 
+float throttle = 1.0;
+
 float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 
@@ -68,31 +70,31 @@ void LineFollow(int SensorState){
     case 7:
     case 4:
     default:
-      MotorForward(straight_speed, straight_time);
+      MotorForward(straight_speed*throttle, straight_time);
       break;
     case 2:
-      MotorLeft(turn_speed, turn_time);
-      MotorForward(shift_speed, shift_time);
+      MotorLeft(turn_speed*throttle, turn_time);
+      MotorForward(shift_speed*throttle, shift_time);
       break;
     case 3:
-      MotorRight(turn_speed, turn_time);
-      MotorForward(shift_speed, shift_time);
+      MotorRight(turn_speed*throttle, turn_time);
+      MotorForward(shift_speed*throttle, shift_time);
       break;
     case 5:
-      MotorForward(shift_speed, shift_time);
-      MotorRight(turn_speed, turn_time);
+      MotorForward(shift_speed*throttle, shift_time);
+      MotorRight(turn_speed*throttle, turn_time);
       break;
     case 6:
-      MotorForward(shift_speed, shift_time);
-      MotorLeft(turn_speed, turn_time);
+      MotorForward(shift_speed*throttle, shift_time);
+      MotorLeft(turn_speed*throttle, turn_time);
       break;
     case 13:
       // MotorBack(shift_speed, shift_time);
-      MotorLeft(turn_speed, turn_time);
+      MotorLeft(turn_speed*throttle, turn_time);
       break;
     case 15:
       // MotorBack(shift_speed, shift_time);
-      MotorRight(turn_speed, turn_time);
+      MotorRight(turn_speed*throttle, turn_time);
       break;
   } 
 }
