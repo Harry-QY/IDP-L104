@@ -17,5 +17,11 @@ void MotorBack(int MotorSpeed, int TimeRunning);
 void MotorLeft(int MotorSpeed, int TimeRunning);
 void MotorRight(int MotorSpeed, int TimeRunning);
 void MotorOff();
+void LiftMotorLower();
+void LiftMotorRaise();
+void ServoTighten();
+void ServoLoosen();
+void ClampAndLift();
+void DescendAndRelease();
 
 #endif

@@ -8,13 +8,15 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *LeftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *RightMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
-Servo servoMotor;
+
+Servo myservo; // create servo object to control a servo
+int pos = 0; // variable to store the servo position
 
 float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 
 void MotorSetup() { //Function called in setup(){ function in .ino file.
-  servoMotor.attach(x); // attaches the servo on pin 9 to the servo object
+  myservo.attach(8); // attaches the servo on pin 9 to the servo object
   Serial.begin(9600);
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
@@ -99,23 +101,54 @@ void LineFollow(int SensorState){
   } 
 }
 
-//motor for lifting--------------------------------
-
-void LiftMotorRaise(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LiftMotor->run(FORWARD);
-  LiftMotor->setSpeed(MotorSpeed);
-  delay(TimeRunning);
-  LiftMotor->run(RELEASE);
-}
+//motor for lifting and functions--------------------------------
 
 void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
-  LiftMotor->run(BACKWARD);
+  LiftMotor->run(FORWARD);
+  Serial.println("Run forward");
   LiftMotor->setSpeed(MotorSpeed);
   delay(TimeRunning);
   LiftMotor->run(RELEASE);
 }
 
-//general motor running
+void LiftMotorRaise(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
+  LiftMotor->run(BACKWARD);
+  Serial.println("Run backward");
+  LiftMotor->setSpeed(MotorSpeed);
+  delay(TimeRunning);
+  LiftMotor->run(RELEASE);
+}
+
+void ServoTighten(int StartAngle, int FinalAngle) {
+ for (pos = StartAngle; pos <= FinalAngle; pos += 1) { // goes from 0 degrees to 180 degrees
+  myservo.write(pos); // tell servo to go to position in variable 'pos'
+  delay(15); // waits 15 ms for the servo to reach the position
+ }
+  Serial.print("Tightened by ");
+  Serial.print(FinalAngle);
+  Serial.println(" degrees.");
+}
+
+void ServoLoosen(int StartAngle, int FinalAngle) {
+  for (pos = StartAngle; pos >= FinalAngle; pos -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos); // tell servo to go to position in variable 'pos'
+    delay(15); // waits 15 ms for the servo to reach the position
+  }
+  Serial.print("Returned back from ");
+  Serial.print(StartAngle);
+  Serial.println(" degrees.");
+}
+
+void ClampAndLift(int ClampAngle = 60, int LiftTime = 2000) {
+  ServoTighten(0, ClampAngle);
+  LiftMotorRaise(100, LiftTime);
+}
+
+void DescendAndRelease(int ClampAngle = 60, int LiftTime = 2000){ //LiftMotorCorrectionFactor is a percentage
+  LiftMotorLower(100, LiftTime);
+  ServoLoosen(ClampAngle, 0);
+}
+//general motor running--------------------------------------------------------------------------
 
 void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LeftMotor->run(FORWARD); //depends on which way the motors are installed
@@ -175,22 +208,6 @@ void MotorOff() {
 }
 
 //Servomotor ---------------------------------------------------------------------------------------------------------------------------
-
-int servoAngle = 0; // variable to store the servo position
-
-void resetServo(int intialAngle) {
-  for (pos = initialAngle; pos = 0; pos -= 1) { // goes to 0 degrees
-    myservo.write(pos); // tell servo to go to position in variable 'pos'
-    delay(15); // waits 15 ms for the servo to reach the position
-  }
-}
-
-void servoAngle(int initialAngle, int finalAngle) {
-  for (pos = initialAngle; pos <= finalAngle; pos += 1) {
-    myservo.write(pos); // tell servo to go to position in variable 'pos'
-    delay(15); // waits 15 ms for the servo to reach the position
-  }
-}
 
 
 
