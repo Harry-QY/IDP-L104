@@ -12,11 +12,13 @@ Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 Servo myservo; // create servo object to control a servo
 int pos = 0; // variable to store the servo position
 
-float left_offset = 1.2; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
+float left_offset = 1; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
+float throttle = 1;
+
 
 void MotorSetup() { //Function called in setup(){ function in .ino file.
-  myservo.attach(8); // attaches the servo on pin 9 to the servo object
+  myservo.attach(8); // attaches the servo on pin 8 to the servo object
   Serial.begin(9600);
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
@@ -28,10 +30,10 @@ void MotorAction(char action) {
   // motor action to be called in according to junction type
   int fwd_speed = 170;
   int fwd_time = 250;
-  int turn_speed = 130;
-  int turn_time = 1350;
+  int turn_speed = 135;
+  int turn_time = 1600;
   int bwd_speed = 150;
-  int bwd_time = 150;
+  int bwd_time = 1000;
 
   switch (action) {
     case 'F':
@@ -52,8 +54,10 @@ void MotorAction(char action) {
       MotorOff();
       break;
     case 'T':
+      Serial.println("should rev then 180");
       MotorBack(bwd_speed, bwd_time/2);
       MotorLeft(turn_speed, turn_time*2); // turn 180
+      MotorBack(bwd_speed, 3*bwd_time/2);
       break;
   }
 }

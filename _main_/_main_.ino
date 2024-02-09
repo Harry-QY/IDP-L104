@@ -85,13 +85,13 @@ void loop() {
       current_path = path2green;
       current_actions = actions2green;
       path_size = sizeof(path2green)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     } else {
       Serial.print("Set path red.");
       current_path = path2red;
       current_actions = actions2red;
       path_size = sizeof(path2red)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     }
     // follow path
     FollowPath(current_path, current_actions, path_size);
@@ -105,13 +105,13 @@ void loop() {
       current_path = path3green;
       current_actions = actions3green;
       path_size = sizeof(path3green)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     } else {
       Serial.print("Set path red to new block.");
       current_path = path3red;
       current_actions = actions3red;
       path_size = sizeof(path3red)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     }
 
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
@@ -130,13 +130,13 @@ void loop() {
       current_path = path4green;
       current_actions = actions4green;
       path_size = sizeof(path4green)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     } else {
       Serial.print("Set path to red platform from futher block.");
       current_path = path4red;
       current_actions = actions4red;
       path_size = sizeof(path4red)/(3*sizeof(int));
-      MotorAction("T");
+      MotorAction('T');
     }
     // follow path
     FollowPath(current_path, current_actions, path_size);

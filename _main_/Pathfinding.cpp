@@ -50,7 +50,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
         } 
         else {
             // Perform straight line following
-            //Serial.print("Go straight, sensor state:"); Serial.println(SensorState); 
+            Serial.print("Go straight, sensor state:"); Serial.println(SensorState); 
             LineFollow(SensorState);
         } 
         if (digitalRead(btn) == 1) {
@@ -65,6 +65,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
 void BlockFinding() {
     DetectionSensorsSetup();
+    throttle = 0.7;
     float ToF = 10000;
     while (ToF > 75) {
         ToF = sensor.getDistance();
@@ -83,6 +84,7 @@ void BlockFinding() {
 
 void PlatformFinding() {
     DetectionSensorsSetup();
+    throttle = 0.7;
     float US = 10000;
     while (US > 29) {
       int t = analogRead(sensingPin);
