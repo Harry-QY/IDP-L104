@@ -78,6 +78,8 @@ void loop() {
       BlockFinding();
       chosen_block = BlockIdentification();
     }
+    ClampAndLift();
+
     // pick/drop block, switch pick/drop mode
 
     if (chosen_block == 1) {
@@ -96,6 +98,7 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
+    DescendAndRelease();
     // drop block, num_delivered += 1
   
     //At platform, go for second block----------------------------------
@@ -124,7 +127,7 @@ void loop() {
       chosen_block = BlockIdentification();
     }
     // pick/drop block, switch pick/drop mode
-
+    ClampAndLift();
     if (chosen_block == 1) {
       Serial.print("Set path to green platform from futher block.");
       current_path = path4green;
@@ -141,6 +144,8 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
+    DescendAndRelease();
+
     MotorOff();
     offblueLEDsequence();
     start = 0;
