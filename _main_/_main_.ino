@@ -16,12 +16,12 @@
 #define btn 3 //sets button
 
 int path1[][3] = {{0,12,0}, {8,8,12}, {14,14,12}, {10,8,14}}; // looks for start box, inverse T, T, right hand junction, end of line
-char actions1[] = "FFLR"; //to initial block
+char actions1[] = "FFlR"; //to initial block
 
 int path2green[][3] = {{14,14,12}, {14,14,12}}; // go to green
-char actions2green[] = "RL"; //to green drop off
+char actions2green[] = "Rl"; //to green drop off
 int path2red[][3] = {{14,14,12},  {10,8,14}, {14,14,12}}; // go to red
-char actions2red[] = "LFR"; //to red drop off
+char actions2red[] = "LFr"; //to red drop off
 
 int path3green[][3] = {{10,8,14}, {10,8,14}, {9,8,14}, {10,8,14}}; // go to next block from green
 char actions3green[] = "FRFR"; //to second (further) block from green drop off
@@ -29,9 +29,9 @@ int path3red[][3] = {{9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
 char actions3red[] = "FLL"; //to second (further) block from red drop off
 
 int path4green[][3] = {{14,14,12}, {10,8,14}, {9,8,14}, {9,8,14}}; // block 2 from green
-char actions4green[] = "LFLF";
+char actions4green[] = "LFlF";
 int path4red[][3] = {{14,14,12}, {14,14,12}, {10,8,14}}; // block 2 from red
-char actions4red[] = "RRF";
+char actions4red[] = "RrF";
 int mode = 0;
 
 void setup() {
@@ -59,7 +59,6 @@ void loop() {
   }
 
   while (start == 1) {
-
     int pick_drop = 0; // 0 for picking up, 1 for dropping off
     int num_delivered = 0; // number of block delivered
 

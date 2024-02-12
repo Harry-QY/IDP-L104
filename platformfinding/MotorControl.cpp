@@ -12,7 +12,7 @@ Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 Servo myservo; // create servo object to control a servo
 int pos = 0; // variable to store the servo position
 
-float left_offset = 1.05; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
+float left_offset = 1; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 float throttle = 1;
 
@@ -30,8 +30,8 @@ void MotorAction(char action) {
   // motor action to be called in according to junction type
   int fwd_speed = 170;
   int fwd_time = 250;
-  int turn_speed = 130;
-  int turn_time = 1400;
+  int turn_speed = 135;
+  int turn_time = 1450;
   int bwd_speed = 170;
   int bwd_time = 250;
 
