@@ -9,9 +9,11 @@
 #include <Ticker.h>
 
 extern int start;
+extern int odometry;
 
 void FollowPath(int (*current_path)[3], char* current_actions, int path_size);
 void BlockFinding();
 void PlatformFinding();
+void IndustrialBlockFinding();
 
 #endif

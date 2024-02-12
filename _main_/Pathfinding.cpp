@@ -112,3 +112,18 @@ void PlatformFinding() {
     throttle = 1;
     MotorOff();
 };
+
+void IndustrialBlockFinding() {
+    int odometry = 0;
+    while (odometry < 20000) {
+        lsv = digitalRead(ls);
+        rsv = digitalRead(rs);
+        fsv = digitalRead(fs);
+        bsv = digitalRead(bs);
+        int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
+        LineFollow(SensorState);
+    }
+    MotorAction("L");
+    MotorForward(150,1000);
+    // scans for the block
+}

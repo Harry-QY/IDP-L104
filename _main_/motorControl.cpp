@@ -87,22 +87,27 @@ void LineFollow(int SensorState){
     case 4:
     default:
       MotorForward(straight_speed*throttle, straight_time);
+      odometry += straight_speed*throttle*straight_time;
       break;
     case 2:
       MotorLeft(turn_speed, turn_time);
       MotorForward(shift_speed*throttle, shift_time);
+      odometry += shift_speed*throttle*shift_time;
       break;
     case 3:
       MotorRight(turn_speed, turn_time);
       MotorForward(shift_speed*throttle, shift_time);
+      odometry += shift_speed*throttle*shift_time;
       break;
     case 5:
       MotorForward(shift_speed*throttle, shift_time);
       MotorRight(turn_speed, turn_time);
+      odometry += shift_speed*throttle*shift_time;
       break;
     case 6:
       MotorForward(shift_speed*throttle, shift_time);
       MotorLeft(turn_speed, turn_time);
+      odometry += shift_speed*throttle*shift_time;
       break;
     case 13:
       // MotorBack(shift_speed, shift_time);

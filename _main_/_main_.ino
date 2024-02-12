@@ -28,11 +28,20 @@ char actions3green[] = "FRFR"; //to second (further) block from green drop off
 int path3red[][3] = {{9,8,14}, {9,8,14}, {9,8,14}}; // go to next block from red
 char actions3red[] = "FLL"; //to second (further) block from red drop off
 
-int path4green[][3] = {{14,14,12}, {10,8,14}, {9,8,14}, {9,8,14}}; // block 2 from green
+int path4green[][3] = {{14,14,12}, {10,8,14}, {9,8,14}, {9,8,14}}; // block 2 to green
 char actions4green[] = "LFlF";
-int path4red[][3] = {{14,14,12}, {14,14,12}, {10,8,14}}; // block 2 from red
+int path4red[][3] = {{14,14,12}, {14,14,12}, {10,8,14}}; // block 2 to red
 char actions4red[] = "RrF";
-int mode = 0;
+
+int path5green[][3] = {{10,8,14}, {10,8,14}, {9,8,14}}; // green to left industrial zone
+char actions5green[] = "FRL";
+int path5red[][3] = {{9,8,14}, {9,8,14}, {9,8,14}, {10,8,14}}; // red to left industiral zone
+char actions5red[] = "FLFR";
+
+int path6green[][3] = {{14,14,12}, {9,8,14}, {9,8,14}}; // left industiral zone to green
+char actions6green[] = "rlF";
+int path6red[][3] = {{14,14,12}, {10,8,14}, {14,14,12}, {10,8,14}}; // red to right industrial zone
+char actions6red[] = "lFrF";
 
 void setup() {
   pinMode(btn, INPUT);  // declare pushbutton as input
