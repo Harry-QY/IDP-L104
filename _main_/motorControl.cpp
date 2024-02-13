@@ -51,7 +51,7 @@ void MotorAction(char action) {
       MotorForward(fwd_speed, fwd_time);
       break;
     case 'R':
-      MotorRight(turn_speed, turn_time*1.2);
+      MotorRight(turn_speed, turn_time*1.25);
       MotorForward(fwd_speed, fwd_time*1.2);
       break;
     case 'r':
@@ -69,6 +69,12 @@ void MotorAction(char action) {
       Serial.println("should rev then 180");
       MotorBack(bwd_speed, bwd_time*2);
       MotorLeft(turn_speed, turn_time*2.3); // turn 180
+      MotorBack(bwd_speed, bwd_time*1);
+      break;
+    case 't':
+      Serial.println("should rev then 180");
+      MotorBack(bwd_speed, bwd_time*2);
+      MotorRight(turn_speed, turn_time*2.3); // turn 180
       MotorBack(bwd_speed, bwd_time*1);
       break;
   }
@@ -170,10 +176,7 @@ void DescendAndRelease(int ClampAngle = 120, int LiftTime = 4000){ //LiftMotorCo
   ServoLoosen(ClampAngle, 0);
 }
 
-void DescendAndRelease_loosenfirst(int ClampAngle = 120, int LiftTime = 4000){ //LiftMotorCorrectionFactor is a percentage
-  ServoLoosen(ClampAngle, 0);
-  LiftMotorLower(100, LiftTime);
-}
+
 
 //general motor running--------------------------------------------------------------------------
 

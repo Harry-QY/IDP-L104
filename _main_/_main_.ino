@@ -74,7 +74,7 @@ void loop() {
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
-    DescendAndRelease_loosenfirst();
+    DescendAndRelease();
     int chosen_block = 0;
     while (chosen_block == 0){
       BlockFinding(); //use ToF sensor to find block. End once a block is detected
@@ -119,7 +119,7 @@ void loop() {
     }
     ClampAndLift();
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
-    DescendAndRelease_loosenfirst();
+    DescendAndRelease();
     // block finding    
     // block detection
     chosen_block = 0;

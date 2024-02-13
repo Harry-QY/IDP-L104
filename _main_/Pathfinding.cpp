@@ -33,7 +33,6 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
       fsv = digitalRead(fs);
       bsv = digitalRead(bs); //read all line sensor states
       blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
-      ServoGripTicker.update();
       int SensorState = lineSensorStates(lsv, rsv, fsv, bsv); //interpret line following states
 
       
@@ -90,7 +89,6 @@ void PlatformFinding() {
   while ((US > 13) && (US > 0)) { //US sometimes gives -ve readings, requires logical and (&&) 
     int t = analogRead(sensingPin);
     blueLEDticker.update();
-    ServoGripTicker.update();
     // get distances
     US = t * MAX_RANG / ADC_SOLUTION;//
     Serial.print("US reading: ");
