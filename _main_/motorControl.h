@@ -20,11 +20,19 @@ void MotorBack(int MotorSpeed, int TimeRunning);
 void MotorLeft(int MotorSpeed, int TimeRunning);
 void MotorRight(int MotorSpeed, int TimeRunning);
 void MotorOff();
+
 void LiftMotorLower(int MotorSpeed, int TimeRunning);
 void LiftMotorRaise(int MotorSpeed, int TimeRunning);
 void ServoTighten(int StartAngle, int FinalAngle);
 void ServoLoosen(int StartAngle, int FinalAngle);
 void ClampAndLift(int ClampAngle = 60, int LiftTime = 2000);
 void DescendAndRelease(int ClampAngle = 40, int LiftTime = 2000);
+
+extern Ticker ServoGripTicker; 
+
+void ServoGrip(int StartAngle);
+void onServoGrip();
+void offServoGrip();
+
 
 #endif

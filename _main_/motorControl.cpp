@@ -169,6 +169,25 @@ void DescendAndRelease(int ClampAngle = 40, int LiftTime = 2000){ //LiftMotorCor
   LiftMotorLower(100, LiftTime);
   ServoLoosen(ClampAngle, 0);
 }
+
+
+void ServoGrip(int StartAngle) {
+  for (pos = StartAngle; pos <= 1000; pos += 1) {
+    myservo.write(pos); //Tell servo to go to position in variable 'pos'
+  }
+}
+
+Ticker ServoGripTicker(ServoGrip, 1000, 0, MILLIS); 
+
+void onServoGrip() {
+  ServoGrip.start();
+}
+
+void offServoGrip() {
+  ServoGrip.stop();
+}
+
+
 //general motor running--------------------------------------------------------------------------
 
 void MotorBack(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
