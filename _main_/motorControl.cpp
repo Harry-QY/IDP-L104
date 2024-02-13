@@ -23,6 +23,7 @@ void MotorSetup() { //Function called in setup(){ function in .ino file.
   if (!AFMS.begin()) {
     Serial.println("Could not find Motor Shield. Check wiring.");
     while (1);}
+  myservo.write(0);
   Serial.println("Motor Shield found.");
 }
 

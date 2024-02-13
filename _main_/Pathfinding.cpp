@@ -17,8 +17,8 @@
 
 #define sensingPin A0 //for UltraSonic (US)
 
-int lsv, rsv, fsv, bsv;
-int start = 0;
+int lsv, rsv, fsv, bsv; //binary value for line sensor readings
+int start = 0; //start defined as 'extern' such that it can be set in here, stopping main loop in .ino
 
 void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
@@ -31,14 +31,13 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
         lsv = digitalRead(ls);
         rsv = digitalRead(rs);
         fsv = digitalRead(fs);
-        bsv = digitalRead(bs);
+        bsv = digitalRead(bs); //read all line sensor states
         blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
-        int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
+        int SensorState = lineSensorStates(lsv, rsv, fsv, bsv); //interpret line following states
 
         
         if (SensorState == current_path[i][0] || SensorState == current_path[i][1] || SensorState == current_path[i][2]) {
-            // Perform action here
-            Serial.print("Feature detected: ");
+            Serial.print("Feature detected: "); //if sensor states indicate junction, take associated action
             Serial.print(i);
             Serial.print("; Action: ");
             Serial.println(current_actions[i]);
@@ -57,7 +56,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
             Serial.println("Stop");
             delay(500);
             start = !start;
-            break;
+            break; //break this loop and set start = 0 to break _main_.ino loop
         }
     }
     offblueLEDsequence();
@@ -65,9 +64,9 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
 void BlockFinding() {
     DetectionSensorsSetup();
-    throttle = 0.5;
+    throttle = 0.5; //forward speed factor
     float ToF = 10000;
-    while (ToF > 75) {
+    while (ToF > 75) { //line follow until ToF reads less than 76
         ToF = sensor.getDistance();
         Serial.print("ToF reading: ");
         Serial.println(ToF);
@@ -76,8 +75,8 @@ void BlockFinding() {
         fsv = digitalRead(fs);
         bsv = digitalRead(bs);
         blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
-        int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
-        LineFollow(SensorState);
+        int SensorState = lineSensorStates(lsv, rsv, fsv, bsv); //read sensor states
+        LineFollow(SensorState); //interpret states and line follow forward, at throttled speed
     }
     MotorOff();
     throttle = 1;
@@ -87,7 +86,7 @@ void PlatformFinding() {
     DetectionSensorsSetup();
     throttle = 0.5;
     float US = 10000;
-    while ((US > 13) && (US > 0)) {
+    while ((US > 13) && (US > 0)) { //US sometimes gives -ve readings, requires logical and (&&) 
       int t = analogRead(sensingPin);
       // get distances
       US = t * MAX_RANG / ADC_SOLUTION;//
@@ -98,7 +97,7 @@ void PlatformFinding() {
       fsv = digitalRead(fs);
       bsv = digitalRead(bs);
       int SensorState = lineSensorStates(lsv, rsv, fsv, bsv);
-      LineFollow(SensorState);
+      LineFollow(SensorState); //line follow at throttled speed if no platform found
 
       if (digitalRead(btn) == 1) {
         Serial.println("Stop");
@@ -108,7 +107,7 @@ void PlatformFinding() {
       }
     }
     Serial.println("About to go forward for 1s");
-    MotorForward(120, 1000);
+    MotorForward(120, 1000); //This is required since UltraSonic detects platform lip, so need to move forward a bit to reach edge
     throttle = 1;
     MotorOff();
 };

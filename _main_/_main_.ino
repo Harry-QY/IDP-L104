@@ -68,40 +68,31 @@ void loop() {
   }
 
   while (start == 1) {
-    int pick_drop = 0; // 0 for picking up, 1 for dropping off
-    int num_delivered = 0; // number of block delivered
-
     int (*current_path)[3] = path1;
     char* current_actions = actions1;
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
-    //Serial.println("Running path1");
-    //Serial.print("Looking for: "); Serial.print(current_path[0][0]); Serial.print(current_path[1][0]); Serial.print(current_path[2][0]);
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
 
-    // block finding    
-    // block detection
     int chosen_block = 0;
     while (chosen_block == 0){
-      BlockFinding();
-      chosen_block = BlockIdentification();
+      BlockFinding(); //use ToF sensor to find block. End once a block is detected
+      chosen_block = BlockIdentification(); //int returned indicates block type
     }
-    ClampAndLift();
-
-    // pick/drop block, switch pick/drop mode
+    ClampAndLift(); //clamp block, then lift
 
     if (chosen_block == 1) {
       Serial.print("Set path green.");
-      current_path = path2green;
+      current_path = path2green; //set new path to green platform
       current_actions = actions2green;
       path_size = sizeof(path2green)/(3*sizeof(int));
-      MotorAction('T');
+      MotorAction('T'); //turn 180 degrees
     } else {
       Serial.print("Set path red.");
-      current_path = path2red;
+      current_path = path2red; //set new path to red platform
       current_actions = actions2red;
       path_size = sizeof(path2red)/(3*sizeof(int));
-      MotorAction('T');
+      MotorAction('T'); //turn 180 degrees
     }
     // follow path
     FollowPath(current_path, current_actions, path_size);
@@ -155,10 +146,7 @@ void loop() {
     DescendAndRelease();
 
     MotorOff();
-    offblueLEDsequence();
+    offblueLEDsequence(); //turns off oscilating blue led
     start = 0;
-    // drop block, num_delivered += 1
   }
-
-
 }
