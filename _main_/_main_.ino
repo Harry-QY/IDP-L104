@@ -53,7 +53,7 @@ void setup() {
   pinMode(rs, INPUT);
   pinMode(fs, INPUT);
   pinMode(bs, INPUT);
-
+  ClampAndLift();
   Serial.println("Finished setup");
 }
 
@@ -64,6 +64,7 @@ void loop() {
 
   if (digitalRead(btn) == 1) {
     start = !start;
+    Serial.println("Button pressed");
     delay(500);
   }
 
@@ -73,7 +74,7 @@ void loop() {
     int path_size = sizeof(path1)/(3*sizeof(int)); //Used as input for FollowPath, until found all path junctions. path_size in bytes.
     // follow path
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
-
+    DescendAndRelease_loosenfirst();
     int chosen_block = 0;
     while (chosen_block == 0){
       BlockFinding(); //use ToF sensor to find block. End once a block is detected
@@ -98,6 +99,7 @@ void loop() {
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
     DescendAndRelease();
+    
     // drop block, num_delivered += 1
   
     //At platform, go for second block----------------------------------
@@ -115,9 +117,9 @@ void loop() {
       path_size = sizeof(path3red)/(3*sizeof(int));
       MotorAction('T');
     }
-
+    ClampAndLift();
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
-
+    DescendAndRelease_loosenfirst();
     // block finding    
     // block detection
     chosen_block = 0;
@@ -125,8 +127,8 @@ void loop() {
       BlockFinding();
       chosen_block = BlockIdentification();
     }
-    // pick/drop block, switch pick/drop mode
     ClampAndLift();
+    // pick/drop block, switch pick/drop mode
     if (chosen_block == 1) {
       Serial.print("Set path from current block to green platform.");
       current_path = path4green;

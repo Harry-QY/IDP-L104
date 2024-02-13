@@ -30,11 +30,11 @@ void MotorSetup() { //Function called in setup(){ function in .ino file.
 
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 170;
+  int fwd_speed = 200;
   int fwd_time = 250;
-  int turn_speed = 130;
+  int turn_speed = 175;
   int turn_time = 1400;
-  int bwd_speed = 170;
+  int bwd_speed = 200;
   int bwd_time = 250;
 
   switch (action) {
@@ -42,22 +42,22 @@ void MotorAction(char action) {
       MotorForward(fwd_speed, fwd_time);
       break;
     case 'L':
-      MotorLeft(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time/1.5);
+      MotorLeft(turn_speed, turn_time*1.2);
+      MotorForward(fwd_speed, fwd_time*1.2);
       break;
     case 'l':
-      MotorBack(bwd_speed, bwd_time);
+      MotorBack(bwd_speed, bwd_time/1.2);
       MotorLeft(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time/1.5);
+      MotorForward(fwd_speed, fwd_time);
       break;
     case 'R':
-      MotorRight(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time/1.5);
+      MotorRight(turn_speed, turn_time*1.2);
+      MotorForward(fwd_speed, fwd_time*1.2);
       break;
     case 'r':
-      MotorBack(bwd_speed, bwd_time);
+      MotorBack(bwd_speed, bwd_time/1.2);
       MotorRight(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time/1.5);
+      MotorForward(fwd_speed, fwd_time);
       break;
     case 'B':
       MotorBack(bwd_speed, bwd_time);
@@ -67,20 +67,20 @@ void MotorAction(char action) {
       break;
     case 'T':
       Serial.println("should rev then 180");
-      MotorBack(bwd_speed, bwd_time/2);
-      MotorLeft(turn_speed, turn_time*2.7); // turn 180
-      MotorBack(bwd_speed, bwd_time);
+      MotorBack(bwd_speed, bwd_time*2);
+      MotorLeft(turn_speed, turn_time*2.3); // turn 180
+      MotorBack(bwd_speed, bwd_time*1);
       break;
   }
 }
 
 void LineFollow(int SensorState){
   // different speed & time for each action, to be finetuned. This is different to speeds used after detecting a junction.
-  int straight_speed = 150;
+  int straight_speed = 200;
   int straight_time = 90;
-  int shift_speed = 150;
+  int shift_speed = 200;
   int shift_time = 100;
-  int turn_speed = 120;
+  int turn_speed = 175;
   int turn_time = 90;
 
   switch (SensorState) { 
@@ -160,33 +160,20 @@ void ServoLoosen(int StartAngle, int FinalAngle) {
   Serial.println(" degrees.");
 }
 
-void ClampAndLift(int ClampAngle = 60, int LiftTime = 2000) {
+void ClampAndLift(int ClampAngle = 120, int LiftTime = 4000) {
   ServoTighten(0, ClampAngle);
   LiftMotorRaise(100, LiftTime);
 }
 
-void DescendAndRelease(int ClampAngle = 40, int LiftTime = 2000){ //LiftMotorCorrectionFactor is a percentage
+void DescendAndRelease(int ClampAngle = 120, int LiftTime = 4000){ //LiftMotorCorrectionFactor is a percentage
   LiftMotorLower(100, LiftTime);
   ServoLoosen(ClampAngle, 0);
 }
 
-
-void ServoGrip(int StartAngle) {
-  for (pos = StartAngle; pos <= 1000; pos += 1) {
-    myservo.write(pos); //Tell servo to go to position in variable 'pos'
-  }
+void DescendAndRelease_loosenfirst(int ClampAngle = 120, int LiftTime = 4000){ //LiftMotorCorrectionFactor is a percentage
+  ServoLoosen(ClampAngle, 0);
+  LiftMotorLower(100, LiftTime);
 }
-
-Ticker ServoGripTicker(ServoGrip, 1000, 0, MILLIS); 
-
-void onServoGrip() {
-  ServoGripTicker.start();
-}
-
-void offServoGrip() {
-  ServoGripTicker.stop();
-}
-
 
 //general motor running--------------------------------------------------------------------------
 

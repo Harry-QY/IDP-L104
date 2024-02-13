@@ -64,8 +64,8 @@ void DescendAndRelease(int ClampAngle = 40, int LiftTime = 2000){ //LiftMotorCor
 int start = 1;
 void loop() {
   while (start == 1) {
-  myservo.write(0); // tell servo to go to position in variable 'pos'
-
+  ClampAndLift();
+  DescendAndRelease();
   start = 0;
   }
 }
