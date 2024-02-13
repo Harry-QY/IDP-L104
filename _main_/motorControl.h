@@ -1,6 +1,7 @@
 #include <Adafruit_MotorShield.h>
 #include <arduino.h>
 #include <Ticker.h>
+#include "Pathfinding.h"
 
 #ifndef MOTORCONTROL_H
 #define MOTORCONTROL_H

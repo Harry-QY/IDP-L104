@@ -19,6 +19,7 @@
 
 int lsv, rsv, fsv, bsv; //binary value for line sensor readings
 int start = 0; //start defined as 'extern' such that it can be set in here, stopping main loop in .ino
+int Odometry = 0;
 
 void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
@@ -49,7 +50,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
         } 
         else {
             // Perform straight line following
-            Serial.print("Go straight, sensor state:"); Serial.println(SensorState); 
+            // Serial.print("Go straight, sensor state:"); Serial.println(SensorState); 
             LineFollow(SensorState);
         } 
         if (digitalRead(btn) == 1) {
@@ -113,8 +114,7 @@ void PlatformFinding() {
 };
 
 void IndustrialBlockFinding() {
-    int odometry = 0;
-    while (odometry < 20000) {
+    while (Odometry < 20000) {
         lsv = digitalRead(ls);
         rsv = digitalRead(rs);
         fsv = digitalRead(fs);
@@ -125,4 +125,34 @@ void IndustrialBlockFinding() {
     MotorAction("L");
     MotorForward(150,1000);
     // scans for the block
+    float ToF = 10000;
+    int swing_time = 0;
+    while (ToF > 100 && swing_time < 1000) { //line follow until ToF reads less than 100
+        ToF = sensor.getDistance();
+        MotorLeft(150, 100);
+    }
+    while (ToF > 100 && swing_time < 2000) { //line follow until ToF reads less than 100
+        ToF = sensor.getDistance();
+        MotorRight(150, 100);
+    }
+    while (ToF > 50) {
+        ToF = sensor.getDistance();
+        MotorForward(100,200);
+    }
+}
+
+void IndustrialPathFinding() {
+    onblueLEDsequence();
+    MotorAction('T');
+    int SensorState = 0;
+    while (SensorState  == 0) {
+        lsv = digitalRead(ls);
+        rsv = digitalRead(rs);
+        fsv = digitalRead(fs);
+        bsv = digitalRead(bs); //read all line sensor states
+        blueLEDticker.update(); //required to flip LED. Works different to the .detach() function we used in for coursework since those only work with ARM stuff.
+        SensorState = lineSensorStates(lsv, rsv, fsv, bsv); //interpret line following states
+        MotorForward(150,200);
+    }
+    MotorAction('R');
 }

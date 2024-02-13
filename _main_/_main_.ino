@@ -40,7 +40,7 @@ char actions5red[] = "FLFR";
 
 int path6green[][3] = {{14,14,12}, {9,8,14}, {9,8,14}}; // left industiral zone to green
 char actions6green[] = "rlF";
-int path6red[][3] = {{14,14,12}, {10,8,14}, {14,14,12}, {10,8,14}}; // red to right industrial zone
+int path6red[][3] = {{14,14,12}, {10,8,14}, {14,14,12}, {10,8,14}}; // left industiral zone to red
 char actions6red[] = "lFrF";
 
 void setup() {
@@ -82,13 +82,13 @@ void loop() {
     ClampAndLift(); //clamp block, then lift
 
     if (chosen_block == 1) {
-      Serial.print("Set path green.");
+      Serial.print("Set path to green platform.");
       current_path = path2green; //set new path to green platform
       current_actions = actions2green;
       path_size = sizeof(path2green)/(3*sizeof(int));
       MotorAction('T'); //turn 180 degrees
     } else {
-      Serial.print("Set path red.");
+      Serial.print("Set path to red platform.");
       current_path = path2red; //set new path to red platform
       current_actions = actions2red;
       path_size = sizeof(path2red)/(3*sizeof(int));
@@ -103,13 +103,13 @@ void loop() {
     //At platform, go for second block----------------------------------
 
     if (chosen_block == 1) {
-      Serial.print("Set green to new block.");
+      Serial.print("Set path green platform to new block.");
       current_path = path3green;
       current_actions = actions3green;
       path_size = sizeof(path3green)/(3*sizeof(int));
       MotorAction('T');
     } else {
-      Serial.print("Set path red to new block.");
+      Serial.print("Set path red platform to new block.");
       current_path = path3red;
       current_actions = actions3red;
       path_size = sizeof(path3red)/(3*sizeof(int));
@@ -128,13 +128,13 @@ void loop() {
     // pick/drop block, switch pick/drop mode
     ClampAndLift();
     if (chosen_block == 1) {
-      Serial.print("Set path to green platform from futher block.");
+      Serial.print("Set path from current block to green platform.");
       current_path = path4green;
       current_actions = actions4green;
       path_size = sizeof(path4green)/(3*sizeof(int));
       MotorAction('T');
     } else {
-      Serial.print("Set path to red platform from futher block.");
+      Serial.print("Set path from current block to red platform.");
       current_path = path4red;
       current_actions = actions4red;
       path_size = sizeof(path4red)/(3*sizeof(int));
@@ -145,8 +145,44 @@ void loop() {
     PlatformFinding();
     DescendAndRelease();
 
+    if (chosen_block == 1) {
+      Serial.print("Set path from green platform to left industiral zone.");
+      current_path = path5green;
+      current_actions = actions5green;
+      path_size = sizeof(path5green)/(3*sizeof(int));
+      MotorAction('T');
+    } else {
+      Serial.print("Set path from red platform to left industrial zone.");
+      current_path = path5red;
+      current_actions = actions5red;
+      path_size = sizeof(path5red)/(3*sizeof(int));
+      MotorAction('T');
+    }
+    FollowPath(current_path, current_actions, path_size);
+    IndustrialBlockFinding();
+    ClampAndLift();
+    IndustrialPathFinding();
+
+    if (chosen_block == 1) {
+      Serial.print("Set path from green platform to left industiral zone.");
+      current_path = path6green;
+      current_actions = actions6green;
+      path_size = sizeof(path6green)/(3*sizeof(int));
+    } else {
+      Serial.print("Set path from red platform to left industrial zone.");
+      current_path = path6red;
+      current_actions = actions6red;
+      path_size = sizeof(path6red)/(3*sizeof(int));
+    }
+    FollowPath(current_path, current_actions, path_size);
+    PlatformFinding();
+    DescendAndRelease();
+    
     MotorOff();
     offblueLEDsequence(); //turns off oscilating blue led
     start = 0;
+
+    // for industrial zone
+
   }
 }
