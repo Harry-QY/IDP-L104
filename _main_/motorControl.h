@@ -25,8 +25,8 @@ void LiftMotorLower(int MotorSpeed, int TimeRunning);
 void LiftMotorRaise(int MotorSpeed, int TimeRunning);
 void ServoTighten(int StartAngle, int FinalAngle);
 void ServoLoosen(int StartAngle, int FinalAngle);
-void ClampAndLift(int ClampAngle = 120, int LiftTime = 4000);
-void DescendAndRelease(int ClampAngle = 120, int LiftTime = 4000);
+void ClampAndLift(int ClampAngle = 140, int LiftTime = 4000);
+void DescendAndRelease(int ClampAngle = 140, int LiftTime = 4000);
 
 
 
