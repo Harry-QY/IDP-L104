@@ -180,11 +180,11 @@ void ServoGrip(int StartAngle) {
 Ticker ServoGripTicker(ServoGrip, 1000, 0, MILLIS); 
 
 void onServoGrip() {
-  ServoGrip.start();
+  ServoGripTicker.start();
 }
 
 void offServoGrip() {
-  ServoGrip.stop();
+  ServoGripTicker.stop();
 }
 
 

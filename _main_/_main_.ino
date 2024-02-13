@@ -145,6 +145,8 @@ void loop() {
     PlatformFinding();
     DescendAndRelease();
 
+//--------------------Industrial zone block------------------------------------------
+
     if (chosen_block == 1) {
       Serial.print("Set path from green platform to left industiral zone.");
       current_path = path5green;
