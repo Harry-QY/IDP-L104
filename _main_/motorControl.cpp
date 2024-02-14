@@ -14,9 +14,10 @@ Adafruit_DCMotor *LiftMotor = AFMS.getMotor(3);
 Servo myservo; // create servo object to control a servo
 int pos = 0; // variable to store the servo position
 
-float left_offset = 1.05; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
+float left_offset = 1.1; //Sometimes the drive motors don't spin at the same rate. offsets used to calibrate this.
 float right_offset = 1;
 float throttle = 1;
+
 
 
 void MotorSetup() { //Function called in setup(){ function in .ino file.
@@ -31,11 +32,11 @@ void MotorSetup() { //Function called in setup(){ function in .ino file.
 
 void MotorAction(char action) {
   // motor action to be called in according to junction type
-  int fwd_speed = 200;
+  int fwd_speed = 175;
   int fwd_time = 250;
   int turn_speed = 175;
   int turn_time = 1400;
-  int bwd_speed = 200;
+  int bwd_speed = 175;
   int bwd_time = 250;
 
   switch (action) {
@@ -43,22 +44,22 @@ void MotorAction(char action) {
       MotorForward(fwd_speed, fwd_time);
       break;
     case 'L':
-      MotorLeft(turn_speed, turn_time*1.2);
-      MotorForward(fwd_speed, fwd_time*1.2);
+      MotorLeft(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time*1.3);
       break;
     case 'l':
-      MotorBack(bwd_speed, bwd_time/1.2);
+      MotorBack(bwd_speed, bwd_time*0.8);
       MotorLeft(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time);
+      MotorForward(fwd_speed, fwd_time*1.5);
       break;
     case 'R':
-      MotorRight(turn_speed, turn_time*1.2);
-      MotorForward(fwd_speed, fwd_time*1.2);
+      MotorRight(turn_speed, turn_time);
+      MotorForward(fwd_speed, fwd_time*1.25);
       break;
     case 'r':
-      MotorBack(bwd_speed, bwd_time/1.2);
+      MotorBack(bwd_speed, bwd_time*0.8);
       MotorRight(turn_speed, turn_time);
-      MotorForward(fwd_speed, fwd_time);
+      MotorForward(fwd_speed, fwd_time*1.5);
       break;
     case 'B':
       MotorBack(bwd_speed, bwd_time);
@@ -69,23 +70,23 @@ void MotorAction(char action) {
     case 'T':
       Serial.println("should rev then 180");
       MotorBack(bwd_speed, bwd_time*2);
-      MotorLeft(turn_speed, turn_time*2.2); // turn 180
-      MotorBack(bwd_speed, bwd_time*1);
+      MotorLeft(turn_speed, turn_time*2.5); // turn 180
+      MotorBack(bwd_speed, bwd_time*2.5);
       break;
     case 't':
       Serial.println("should rev then 180");
       MotorBack(bwd_speed, bwd_time*2);
-      MotorRight(turn_speed, turn_time*2.2); // turn 180
-      MotorBack(bwd_speed, bwd_time*1.5);
+      MotorRight(turn_speed, turn_time*2); // turn 180
+      MotorBack(bwd_speed, bwd_time*2.5);
       break;
   }
 }
 
 void LineFollow(int SensorState){
   // different speed & time for each action, to be finetuned. This is different to speeds used after detecting a junction.
-  int straight_speed = 200;
+  int straight_speed = 175;
   int straight_time = 90;
-  int shift_speed = 200;
+  int shift_speed = 150;
   int shift_time = 150;
   int turn_speed = 175;
   int turn_time = 90;
@@ -133,7 +134,6 @@ void LineFollow(int SensorState){
 
 void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LiftMotor->run(FORWARD);
-  Serial.println("Run forward");
   LiftMotor->setSpeed(MotorSpeed);
   delay(TimeRunning);
   LiftMotor->run(RELEASE);
@@ -141,7 +141,6 @@ void LiftMotorLower(int MotorSpeed, int TimeRunning) { //timeRunning variable in
 
 void LiftMotorRaise(int MotorSpeed, int TimeRunning) { //timeRunning variable in miliseconds
   LiftMotor->run(BACKWARD);
-  Serial.println("Run backward");
   LiftMotor->setSpeed(MotorSpeed);
   delay(TimeRunning);
   LiftMotor->run(RELEASE);
@@ -173,8 +172,9 @@ void ClampAndLift(int ClampAngle = 140, int LiftTime = 4000) {
 }
 
 void DescendAndRelease(int ClampAngle = 140, int LiftTime = 4000){ //LiftMotorCorrectionFactor is a percentage
-  LiftMotorLower(100, LiftTime);
+  LiftMotorLower(100, LiftTime/2);
   ServoLoosen(ClampAngle, 0);
+  LiftMotorLower(100, LiftTime/2);
 }
 
 Ticker ApplyClampPressure(ClampPressure, 250, 0, MILLIS);

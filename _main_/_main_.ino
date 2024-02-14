@@ -57,7 +57,6 @@ void setup() {
   Serial.println("Finished setup");
 }
 
-
 void loop() {
   // put your main code here, to run repeatedly:
   // 0 for going straight, L for left junction, R for right junction, F for front junction and B for back junction

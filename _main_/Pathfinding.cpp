@@ -64,7 +64,7 @@ void FollowPath(int (*current_path)[3], char* current_actions, int path_size) {
 
 void BlockFinding() {
   DetectionSensorsSetup();
-  throttle = 0.75; //forward speed factor
+  throttle = 0.8; //forward speed factor
   float ToF = 10000;
   while (ToF > 75) { //line follow until ToF reads less than 76
       ToF = sensor.getDistance();
@@ -84,9 +84,9 @@ void BlockFinding() {
 
 void PlatformFinding() {
   DetectionSensorsSetup();
-  throttle = 0.75;
+  throttle = 0.8;
   float US = 10000;
-  while ((US > 13) && (US > 0)) { //US sometimes gives -ve readings, requires logical and (&&) 
+  while ((US > 9) && (US > 0)) { //US sometimes gives -ve readings, requires logical and (&&) 
     int t = analogRead(sensingPin);
     blueLEDticker.update();
     // get distances
@@ -109,7 +109,7 @@ void PlatformFinding() {
   }
   throttle = 1;
   Serial.println("About to go forward for 1s");
-  MotorForward(120, 1300); //This is required since UltraSonic detects platform lip, so need to move forward a bit to reach edge
+  MotorForward(140, 1500); //This is required since UltraSonic detects platform lip, so need to move forward a bit to reach edge
   MotorOff();
 }
 
