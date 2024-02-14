@@ -3,6 +3,7 @@
 #include "LEDControl.h"
 #include "Pathfinding.h"
 #include <Servo.h>
+
 #define blueLED 4 // blue LED
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -176,6 +177,11 @@ void DescendAndRelease(int ClampAngle = 120, int LiftTime = 4000){ //LiftMotorCo
   ServoLoosen(ClampAngle, 0);
 }
 
+Ticker ApplyClampPressure(ClampPressure, 250, 0, MILLIS);
+
+void ClampPressure(int ClampAngle = 125){
+  myservo.write(ClampAngle);
+}
 
 
 //general motor running--------------------------------------------------------------------------

@@ -28,6 +28,7 @@ void ServoLoosen(int StartAngle, int FinalAngle);
 void ClampAndLift(int ClampAngle = 120, int LiftTime = 4000);
 void DescendAndRelease(int ClampAngle = 120, int LiftTime = 4000);
 
-
+Extern Ticker ApplyClampPressure;
+void ClampPressure(int ClampAngle = 125);
 
 #endif

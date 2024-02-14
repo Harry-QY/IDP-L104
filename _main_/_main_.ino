@@ -81,6 +81,7 @@ void loop() {
       chosen_block = BlockIdentification(); //int returned indicates block type
     }
     ClampAndLift(); //clamp block, then lift
+    ApplyClampPressure.start();
 
     if (chosen_block == 1) {
       Serial.print("Set path to green platform.");
@@ -98,6 +99,7 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
+    ApplyClampPressure.stop();
     DescendAndRelease();
     
     // drop block, num_delivered += 1
@@ -128,6 +130,8 @@ void loop() {
       chosen_block = BlockIdentification();
     }
     ClampAndLift();
+    ApplyClampPressure.start();
+
     // pick/drop block, switch pick/drop mode
     if (chosen_block == 1) {
       Serial.print("Set path from current block to green platform.");
@@ -145,6 +149,7 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
+    ApplyClampPressure.stop();
     DescendAndRelease();
 
 //--------------------Industrial zone block------------------------------------------
