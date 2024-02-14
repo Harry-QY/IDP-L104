@@ -84,6 +84,7 @@ void BlockFinding() {
 
 void PlatformFinding() {
   DetectionSensorsSetup();
+  onblueLEDsequence();
   throttle = 0.8;
   float US = 10000;
   while ((US > 9) && (US > 0)) { //US sometimes gives -ve readings, requires logical and (&&) 
@@ -110,6 +111,7 @@ void PlatformFinding() {
   throttle = 1;
   Serial.println("About to go forward for 1s");
   MotorForward(140, 1500); //This is required since UltraSonic detects platform lip, so need to move forward a bit to reach edge
+  offblueLEDsequence();
   MotorOff();
 }
 

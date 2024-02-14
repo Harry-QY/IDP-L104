@@ -34,7 +34,7 @@ void MotorAction(char action) {
   // motor action to be called in according to junction type
   int fwd_speed = 175;
   int fwd_time = 250;
-  int turn_speed = 175;
+  int turn_speed = 180;
   int turn_time = 1400;
   int bwd_speed = 175;
   int bwd_time = 250;
@@ -70,7 +70,7 @@ void MotorAction(char action) {
     case 'T':
       Serial.println("should rev then 180");
       MotorBack(bwd_speed, bwd_time*2);
-      MotorLeft(turn_speed, turn_time*2.5); // turn 180
+      MotorLeft(turn_speed, turn_time*2.2); // turn 180
       MotorBack(bwd_speed, bwd_time*2.5);
       break;
     case 't':
