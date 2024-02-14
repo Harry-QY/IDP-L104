@@ -117,7 +117,7 @@ void loop() {
       current_path = path3red;
       current_actions = actions3red;
       path_size = sizeof(path3red)/(3*sizeof(int));
-      MotorAction('T');
+      MotorAction('t');
     }
     ClampAndLift();
     FollowPath(current_path, current_actions, path_size); //Follows path, looking for junction. If a junction isnt found just linefollows.
@@ -165,7 +165,7 @@ void loop() {
       current_path = path5red;
       current_actions = actions5red;
       path_size = sizeof(path5red)/(3*sizeof(int));
-      MotorAction('T');
+      MotorAction('t');
     }
     FollowPath(current_path, current_actions, path_size);
     IndustrialBlockFinding();
