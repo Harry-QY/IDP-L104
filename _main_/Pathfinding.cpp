@@ -115,6 +115,8 @@ void PlatformFinding() {
   MotorOff();
 }
 
+//----------- Industrial zone behaviours ------------------
+// Not used in the final competition
 void IndustrialBlockFinding() {
     while (Odometry < 20000) {
         lsv = digitalRead(ls);
@@ -129,11 +131,11 @@ void IndustrialBlockFinding() {
     // scans for the block
     float ToF = 10000;
     int swing_time = 0;
-    while (ToF > 100 && swing_time < 1000) { //line follow until ToF reads less than 100
+    while (ToF > 100 && swing_time < 500) { //line follow until ToF reads less than 100, scan the block by rotating slightly
         ToF = sensor.getDistance();
         MotorLeft(150, 100);
     }
-    while (ToF > 100 && swing_time < 2000) { //line follow until ToF reads less than 100
+    while (ToF > 100 && swing_time < 500) { //line follow until ToF reads less than 100, scan the block by rotating slightly
         ToF = sensor.getDistance();
         MotorRight(150, 100);
     }
@@ -143,7 +145,7 @@ void IndustrialBlockFinding() {
     }
 }
 
-void IndustrialPathFinding() {
+void IndustrialPathFinding() { 
     onblueLEDsequence();
     MotorAction('T');
     int SensorState = 0;
@@ -156,5 +158,5 @@ void IndustrialPathFinding() {
         SensorState = lineSensorStates(lsv, rsv, fsv, bsv); //interpret line following states
         MotorForward(150,200);
     }
-    MotorAction('R');
+    MotorAction('R'); // turn right to get back to the line
 }

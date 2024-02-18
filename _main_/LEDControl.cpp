@@ -25,7 +25,7 @@ void flipblueLEDsequence(bool LED_state, bool start_ticker, bool stop_ticker) { 
       stop_ticker = 1; //If want to turn off LED sequence, stop_ticker set to 1. Reset to 0 after running blueLEDticker.stop() once.
     }
     if (LED_state == 1) {
-      start_ticker = 1; ////If want to turn on LED sequence, start_ticker set to 1. Reset to 0 after running blueLEDticker.start() once.
+      start_ticker = 1; //If want to turn on LED sequence, start_ticker set to 1. Reset to 0 after running blueLEDticker.start() once.
     }
 
     if (start_ticker == 1) {
@@ -42,12 +42,12 @@ void flipblueLEDsequence(bool LED_state, bool start_ticker, bool stop_ticker) { 
     }
 }
 
-void onblueLEDsequence() {
+void onblueLEDsequence() { //Turn on blue LED
   blueLEDticker.start();
   Serial.println("LED seq should have started");
 }
 
-void offblueLEDsequence() {
+void offblueLEDsequence() { //Turn off blue LED
   blueLEDticker.stop();
   digitalWrite(blueLED, 0);
   Serial.println("LED seq should have stopped");

@@ -98,7 +98,7 @@ void loop() {
     // follow path
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
-    ApplyClampPressure.stop();
+    ApplyClampPressure.stop(); // apply more pressure to block by controling servo motor with ticker
     DescendAndRelease();
     
     // drop block, num_delivered += 1
@@ -169,6 +169,7 @@ void loop() {
     FollowPath(current_path, current_actions, path_size);
     IndustrialBlockFinding();
     ClampAndLift();
+    ApplyClampPressure.start();
     IndustrialPathFinding();
 
     if (chosen_block == 1) {
@@ -184,13 +185,12 @@ void loop() {
     }
     FollowPath(current_path, current_actions, path_size);
     PlatformFinding();
+    ApplyClampPressure.stop();
     DescendAndRelease();
     
     MotorOff();
     offblueLEDsequence(); //turns off oscilating blue led
     start = 0;
-
-    // for industrial zone
 
   }
 }

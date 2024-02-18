@@ -97,7 +97,7 @@ void LineFollow(int SensorState){
     case 4:
     default:
       MotorForward(straight_speed*throttle, straight_time);
-      Odometry += straight_speed*throttle*straight_time;
+      Odometry += straight_speed*throttle*straight_time; // set Odometry which is useful in industiral zone
       break;
     case 2:
       MotorLeft(turn_speed, turn_time);
